@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOANGKUN STORE | PRO DASHBOARD</title>
+    <title>HOANGKUN | SECURITY DASHBOARD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
 
@@ -137,7 +137,7 @@
         }
         .prompt { margin-right: 15px; color: var(--primary); font-weight: bold; }
 
-        /* Lưới tính năng / Sản phẩm */
+        /* Lưới tính năng */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -211,7 +211,7 @@
         .btn-pro:hover::before { left: 0; }
         .btn-pro:hover { color: #000; box-shadow: 0 0 20px var(--primary); }
 
-        /* Toast Notifications (Góc phải dưới) */
+        /* Toast Notifications */
         #toast-zone {
             position: fixed;
             bottom: 30px;
@@ -248,22 +248,18 @@
         }
         .toast-body { color: #fff; }
 
-        /* Chớp nháy con trỏ */
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <!-- Nền Matrix -->
     <canvas id="matrix-canvas"></canvas>
     <div class="vignette"></div>
 
     <div class="dashboard-container">
-        <!-- Tiêu đề -->
         <h1 class="sys-title">SYSTEM ONLINE</h1>
 
-        <!-- Khối Terminal -->
         <div class="terminal-window">
             <div class="window-header">
                 <div class="window-controls">
@@ -274,34 +270,30 @@
                 <div class="window-title">root@hoangkun-server:~</div>
             </div>
             <div class="terminal-body" id="term-body">
-                <!-- Nội dung được gõ bằng JS -->
-            </div>
+                </div>
         </div>
 
-        <!-- Khối Dịch Vụ / Script -->
         <div class="services-grid">
-            <div class="service-card" onclick="fireToast('Đang kết xuất dữ liệu Source Code Web...', 'info')">
-                <h3>[#01] SOURCE CODE</h3>
-                <p>Kho lưu trữ kịch bản HTML/CSS/JS, giao diện chất lượng cao, tối ưu hóa toàn diện.</p>
+            <div class="service-card" onclick="fireToast('Khởi chạy tiến trình Penetration Testing...', 'info')">
+                <h3>[#01] PENETRATION TESTING</h3>
+                <p>Kiểm thử xâm nhập, rà quét lỗ hổng bảo mật và đánh giá an toàn hệ thống phân tán.</p>
             </div>
-            <div class="service-card" onclick="fireToast('Đang tải công cụ bảo mật...', 'success')">
-                <h3>[#02] SECURITY TOOLS</h3>
-                <p>Các công cụ kiểm tra bảo mật, bảo vệ tài khoản và nâng cao an toàn thông tin.</p>
+            <div class="service-card" onclick="fireToast('Đang trích xuất dữ liệu mã hóa...', 'success')">
+                <h3>[#02] DATA RECOVERY</h3>
+                <p>Phân tích pháp y kỹ thuật số và khôi phục cấu trúc dữ liệu bị phân mảnh cấp cao.</p>
             </div>
-            <div class="service-card" onclick="fireToast('Kết nối Database bị từ chối!', 'error')">
-                <h3>[#03] DATABASE API</h3>
-                <p>Cổng kết nối API tốc độ cao, truy xuất và quản lý dữ liệu máy chủ theo thời gian thực.</p>
+            <div class="service-card" onclick="fireToast('Kích hoạt tường lửa nhiều lớp!', 'error')">
+                <h3>[#03] NETWORK DEFENSE</h3>
+                <p>Thiết lập giao thức phòng ngự, chống lại các cuộc tấn công DDoS và từ chối truy cập.</p>
             </div>
         </div>
 
-        <!-- Khối Nút Bấm -->
         <div class="btn-container">
-            <button class="btn-pro" onclick="fireToast('Đang truy cập kho lưu trữ...', 'success')">TRUY CẬP STORE</button>
-            <button class="btn-pro" onclick="fireToast('Cảnh báo: Đang quét lỗ hổng hệ thống!', 'error')">SCAN HỆ THỐNG</button>
+            <button class="btn-pro" onclick="fireToast('Đang kết nối kho dữ liệu mã hóa...', 'success')">KHỞI ĐỘNG MODULE</button>
+            <button class="btn-pro" onclick="fireToast('Cảnh báo: Đang rà quét toàn bộ mạng lưới!', 'error')">SCAN HỆ THỐNG</button>
         </div>
     </div>
 
-    <!-- Khu vực hiển thị thông báo -->
     <div id="toast-zone"></div>
 
     <script>
@@ -323,9 +315,9 @@
         for (let x = 0; x < columns; x++) drops[x] = 1;
 
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(7, 7, 7, 0.08)'; // Tạo độ mờ ảo của đuôi chữ
+            ctx.fillStyle = 'rgba(7, 7, 7, 0.08)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff41'; // Màu xanh lá neon
+            ctx.fillStyle = '#00ff41'; 
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
@@ -341,11 +333,11 @@
 
         // === 2. TERMINAL TYPING EFFECT ===
         const terminalText = [
-            "<span class='text-white'>Khởi tạo kết nối đến máy chủ bảo mật...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Xác thực chứng chỉ mã hóa SSL...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Đang nạp thư viện HOANGKUN-CORE v2.5.9...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Trạng thái hệ thống:</span> <span class='prompt'>SẴN SÀNG HOẠT ĐỘNG</span>",
-            "<span class='text-white'>Nhập lệnh hoặc chọn menu bên dưới để tiếp tục.</span>"
+            "<span class='text-white'>Khởi tạo hệ thống an ninh mạng cấp độ 4...</span> <span class='text-warning'>[OK]</span>",
+            "<span class='text-white'>Xác thực chứng chỉ mã hóa RSA-4096...</span> <span class='text-warning'>[OK]</span>",
+            "<span class='text-white'>Đang nạp module PEN-TEST v2.6.0...</span> <span class='text-warning'>[OK]</span>",
+            "<span class='text-white'>Trạng thái lõi hệ thống:</span> <span class='prompt'>TRUY CẬP ĐƯỢC CẤP PHÉP</span>",
+            "<span class='text-white'>Chọn mục tiêu kiểm thử bên dưới để bắt đầu.</span>"
         ];
         
         const termBody = document.getElementById('term-body');
@@ -362,9 +354,8 @@
                 contentSpan.innerHTML = terminalText[lineIndex];
                 
                 lineIndex++;
-                setTimeout(typeLine, 600); // Tốc độ hiện từng dòng
+                setTimeout(typeLine, 600); 
             } else {
-                // Thêm dòng chờ nhập lệnh
                 const inputDiv = document.createElement('div');
                 inputDiv.className = 'typing-line';
                 inputDiv.innerHTML = `<span class="prompt">root@hoangkun:~$</span> <span class="cursor-blink">_</span>`;
@@ -393,12 +384,10 @@
             
             toastZone.appendChild(toast);
             
-            // Hiệu ứng trượt vào
             requestAnimationFrame(() => {
                 setTimeout(() => toast.classList.add('show'), 10);
             });
             
-            // Tự động ẩn sau 4 giây
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
@@ -407,14 +396,14 @@
 
         // Tự động giả lập thông báo ngẫu nhiên
         const randomAlerts = [
-            { msg: "Người dùng lạ vừa tải thành công bộ mã nguồn Web.", type: "info" },
-            { msg: "Phát hiện đăng nhập SSH trái phép từ IP: 103.11.x.x!", type: "error" },
-            { msg: "Dữ liệu Cache đã được dọn dẹp.", type: "success" },
-            { msg: "Cảnh báo: Lưu lượng băng thông đạt ngưỡng 85%.", type: "error" }
+            { msg: "Quá trình giải mã tập tin hoàn tất.", type: "success" },
+            { msg: "Phát hiện nỗ lực rà quét cổng từ IP: 103.11.x.x!", type: "error" },
+            { msg: "Hệ thống phòng ngự IDS đang hoạt động ổn định.", type: "info" },
+            { msg: "Cảnh báo: Lưu lượng Ping đạt ngưỡng bất thường.", type: "error" }
         ];
 
         setInterval(() => {
-            if (Math.random() > 0.7) { // 30% tỷ lệ hiện thông báo mỗi 6 giây
+            if (Math.random() > 0.7) { 
                 const alert = randomAlerts[Math.floor(Math.random() * randomAlerts.length)];
                 fireToast(alert.msg, alert.type);
             }
