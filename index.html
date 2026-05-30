@@ -92,6 +92,8 @@
         .typing-line { display: flex; margin-bottom: 10px; }
         .prompt { margin-right: 15px; color: var(--magenta); font-weight: bold; text-shadow: 0 0 5px var(--magenta); }
         .content { color: #fff; text-shadow: 0 0 5px #fff; }
+        
+        .target-highlight { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); font-weight: bold; }
 
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .service-card {
@@ -130,7 +132,7 @@
         .cursor-blink { animation: blink 0.8s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- CSS MỚI CHO BẢNG CHẠY CODE HACK --- */
+        /* MÀN HÌNH HACK MODAL */
         .hack-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -151,22 +153,19 @@
             color: var(--danger); font-weight: bold; font-size: 1.2rem;
             display: flex; justify-content: space-between;
         }
-        .hack-close {
-            background: none; border: none; color: var(--neon-green); font-size: 1.2rem; cursor: pointer; font-family: inherit;
-        }
+        .hack-close { background: none; border: none; color: var(--neon-green); font-size: 1.2rem; cursor: pointer; font-family: inherit; }
         .hack-close:hover { color: #fff; }
         
         .hack-content {
             flex: 1; padding: 15px; overflow-y: auto; color: var(--neon-green);
-            font-size: 0.95rem; line-height: 1.3; text-shadow: 0 0 5px var(--neon-green);
+            font-size: 0.95rem; line-height: 1.4; text-shadow: 0 0 5px var(--neon-green);
         }
-        /* Custom thanh cuộn */
         .hack-content::-webkit-scrollbar { width: 5px; }
         .hack-content::-webkit-scrollbar-thumb { background: var(--neon-green); }
 
         .hack-footer {
             padding: 15px; border-top: 1px solid var(--neon-green);
-            color: var(--yellow); font-size: 1.2rem; text-align: center; font-weight: bold;
+            color: var(--yellow); font-size: 1.2rem; text-align: center; font-weight: bold; text-shadow: 0 0 5px var(--yellow);
         }
     </style>
 </head>
@@ -193,7 +192,7 @@
         <div class="services-grid">
             <div class="service-card" onclick="fireToast('Đang tiêm mã Penetration Testing...', 'SYS')">
                 <h3>[#01] PENETRATION</h3>
-                <p>Khởi chạy tự động, rà quét và phân tích điểm mù bảo mật.</p>
+                <p>Khởi chạy kịch bản tự động, rà quét và phân tích điểm mù bảo mật.</p>
             </div>
             <div class="service-card" onclick="fireToast('Kích hoạt thuật toán Data Recovery...', 'SYS')">
                 <h3>[#02] DATA RECOVERY</h3>
@@ -213,22 +212,22 @@
 
     <div id="toast-zone"></div>
 
+    <!-- MÀN HÌNH CHẠY CODE HACK VÀO MỤC TIÊU -->
     <div id="hack-modal" class="hack-modal">
         <div class="hack-box">
             <div class="hack-header">
-                <span>[!] CẢNH BÁO: CHƯƠNG TRÌNH ĐANG THỰC THI</span>
+                <span>[!] CẢNH BÁO: CHƯƠNG TRÌNH ĐANG THỰC THI THÂM NHẬP</span>
                 <button class="hack-close" onclick="closeHackModal()">[ X ĐÓNG ]</button>
             </div>
-            <div class="hack-content" id="hack-logs">
-                </div>
+            <div class="hack-content" id="hack-logs"></div>
             <div class="hack-footer" id="hack-status">
-                ĐANG KẾT NỐI SERVER ĐÍCH... <span class="cursor-blink">_</span>
+                ĐANG CHUẨN BỊ MÔI TRƯỜNG... <span class="cursor-blink">_</span>
             </div>
         </div>
     </div>
 
     <script>
-        // --- CÁC SCRIPT CŨ (Ma trận, Toast, Gõ Terminal) ---
+        // Matrix Background
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
@@ -249,12 +248,13 @@
         }
         setInterval(drawMatrix, 35);
 
+        // Terminal Chính
         const terminalText = [
-            "<span class='content'>[SYSTEM] Đang bỏ qua giao thức SSL...</span> <span style='color: #00ff41'>[DONE]</span>",
-            "<span class='content'>[SYSTEM] Tiêm mã độc quyền HOANGKUN-CORE...</span> <span style='color: #00ff41'>[DONE]</span>",
-            "<span class='content'>[SYSTEM] Đang quét các lỗ hổng mạng lân cận...</span> <span style='color: #ffcc00'>[WARNING]</span>",
+            "<span class='content'>[SYSTEM] Đang thiết lập đường hầm Proxy ẩn danh...</span> <span style='color: #00ff41'>[DONE]</span>",
+            "<span class='content'>[SYSTEM] Nạp hồ sơ mục tiêu: <span class='target-highlight'>FACEBOOK/Ph.Van.Tuan</span>...</span> <span style='color: #00ff41'>[DONE]</span>",
+            "<span class='content'>[SYSTEM] Bắt đầu phân tích cấu trúc tường lửa Meta...</span> <span style='color: #ffcc00'>[WARNING]</span>",
             "<span class='content'>[SYSTEM] Cấp quyền truy cập mức cao nhất:</span> <span style='color: #ff00ff; text-shadow: 0 0 5px #ff00ff;'>ROOT ACCESS GRANTED</span>",
-            "<span class='content'>[ROOT] Chờ lệnh thực thi từ người quản trị...</span>"
+            "<span class='content'>[ROOT] Mục tiêu <span class='target-highlight'>Ph Văn Tuấn</span> đã bị khóa mục tiêu. Chờ lệnh...</span>"
         ];
         const termBody = document.getElementById('term-body'); let lineIndex = 0;
         function typeLine() {
@@ -270,6 +270,7 @@
         }
         setTimeout(typeLine, 800);
 
+        // Toast
         const toastZone = document.getElementById('toast-zone');
         function fireToast(message, typeLabel = 'ALERT') {
             const toast = document.createElement('div'); toast.className = `toast-msg`;
@@ -280,65 +281,70 @@
             setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
-        // --- SCRIPT MỚI DÀNH CHO MÀN HÌNH CHẠY CODE ẢO ---
+        // --- SCRIPT HACK MODAL TARGETING PH VĂN TUẤN ---
         const hackModal = document.getElementById('hack-modal');
         const hackLogs = document.getElementById('hack-logs');
         const hackStatus = document.getElementById('hack-status');
         let hackInterval;
 
-        // Tập hợp các câu thông báo giả để hiện random
         const fakeLogs = [
-            "Bypassing Firewall Protocol...",
-            "Injecting Trojan Payload to port 8080...",
+            "Bypassing Facebook Graph API...",
+            "Target Locked: Profile ID [Ph Văn Tuấn]...",
+            "Injecting Session Cookie for Ph Văn Tuấn...",
+            "Bypassing 2FA Authentication... [SUCCESS]",
+            "Extracting Messenger Database from Ph Văn Tuấn...",
             "Memory leak detected at 0x89F0A3C...",
-            "Resolving IP routing via Proxy... [OK]",
-            "Decrypting RSA-4096 User Hash...",
-            "Extracting Database Tables: wp_users, wp_passwords...",
-            "[WARNING] Counter-measure detected. Switching node...",
-            "Establishing Reverse Shell Connection...",
-            "Downloading encrypted cache [||||||||||||||||||] 100%",
+            "Downloading private images of Ph Văn Tuấn [||||||||||||||||||] 100%",
+            "Resolving IP routing via VPN Proxy... [OK]",
+            "Decrypting RSA-4096 User Hash for Ph Văn Tuấn...",
+            "[WARNING] Meta Security Counter-measure detected. Switching node...",
+            "Establishing Reverse Shell Connection to target device...",
             "Overriding system administrator privileges..."
         ];
 
         function startHackSequence() {
-            hackModal.classList.add('active'); // Hiện modal
-            hackLogs.innerHTML = ""; // Xoá log cũ
-            hackStatus.innerHTML = 'ĐANG VƯỢT TƯỜNG LỬA... <span class="cursor-blink">_</span>';
+            hackModal.classList.add('active');
+            hackLogs.innerHTML = "";
+            
+            // Cập nhật trạng thái tấn công mục tiêu
+            hackStatus.innerHTML = 'ĐANG TẤN CÔNG MỤC TIÊU: <span style="color: var(--magenta)">[ Ph Văn Tuấn ]</span>... <span class="cursor-blink">_</span>';
             hackStatus.style.color = 'var(--yellow)';
 
             let lineCount = 0;
             
-            // Hàm chạy code liên tục
             hackInterval = setInterval(() => {
                 const p = document.createElement('div');
                 
-                // Random ra text chữ hoặc 1 chuỗi mã Hex rác nhìn cho ngầu
                 if (Math.random() > 0.4) {
                     p.innerText = fakeLogs[Math.floor(Math.random() * fakeLogs.length)];
+                    // Đổi màu vàng cho những dòng có tên mục tiêu
+                    if (p.innerText.includes("Ph Văn Tuấn")) {
+                        p.style.color = "var(--yellow)";
+                    }
                 } else {
                     let hexDump = '';
                     for(let i=0; i<12; i++) hexDump += Math.floor(Math.random()*16).toString(16).toUpperCase() + ' ';
                     p.innerText = `[HEX DUMP] ${hexDump}`;
+                    p.style.opacity = "0.7";
                 }
                 
                 hackLogs.appendChild(p);
-                // Tự động cuộn chuột xuống dưới cùng
                 hackLogs.scrollTop = hackLogs.scrollHeight;
                 lineCount++;
 
-                // Chạy được khoảng 60 dòng thì dừng lại báo thành công
+                // Kết thúc giả lập sau 60 dòng code
                 if (lineCount > 60) {
                     clearInterval(hackInterval);
-                    hackStatus.innerHTML = '<span style="color: var(--neon-green); font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green);">[+] TRUY CẬP THÀNH CÔNG - HỆ THỐNG ĐÃ BỊ KIỂM SOÁT [+]</span>';
+                    hackStatus.innerHTML = '<span style="color: var(--neon-green); font-size: 1.5rem; text-shadow: 0 0 15px var(--neon-green);">[+] TRUY CẬP THÀNH CÔNG TÀI KHOẢN PH VĂN TUẤN [+]</span>';
                     
-                    // Thêm dòng chốt hạ vào bảng log
                     const successMsg = document.createElement('div');
-                    successMsg.innerHTML = "<br><b>=========================================<br>TARGET COMPROMISED. ROOT ACCESS SECURED.<br>=========================================</b>";
+                    successMsg.innerHTML = "<br><b>=========================================<br>TARGET: Ph Văn Tuấn - COMPROMISED.<br>DATA EXTRACTION COMPLETE.<br>=========================================</b>";
                     successMsg.style.color = "var(--magenta)";
+                    successMsg.style.textShadow = "0 0 10px var(--magenta)";
                     hackLogs.appendChild(successMsg);
                     hackLogs.scrollTop = hackLogs.scrollHeight;
                 }
-            }, 60); // Tốc độ chạy 60ms/dòng (Rất nhanh)
+            }, 60); 
         }
 
         function closeHackModal() {
