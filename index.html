@@ -147,7 +147,7 @@
     <canvas id="matrix-canvas"></canvas>
 
     <div class="dashboard-container">
-        <h1 class="sys-title">HOANGKUN<span>_</span></h1>
+        <h1 class="sys-title" id="main-title"></h1>
 
         <div class="terminal-window">
             <div class="window-header">
@@ -319,6 +319,26 @@
             hackModal.classList.remove('active');
             clearInterval(hackInterval);
         }
+
+        // --- Hiệu Ứng Gõ Chữ Tiêu Đề HOANGKUN ---
+        const titleText = "HOANGKUN";
+        const titleEl = document.getElementById('main-title');
+        let titleIdx = 0;
+
+        function typeMainTitle() {
+            if (titleIdx < titleText.length) {
+                // Giữ nguyên phần đã gõ và cộng thêm con trỏ nhấp nháy
+                titleEl.innerHTML = titleText.substring(0, titleIdx + 1) + '<span>_</span>';
+                titleIdx++;
+                setTimeout(typeMainTitle, 150); // Tốc độ gõ 150ms/chữ
+            } else {
+                // Sau khi gõ xong, cho con trỏ nhấp nháy liên tục
+                titleEl.innerHTML = titleText + '<span class="cursor-blink">_</span>';
+            }
+        }
+        // Chờ 300ms sau khi tải trang thì bắt đầu gõ
+        setTimeout(typeMainTitle, 300);
+        
     </script>
 </body>
 </html>
