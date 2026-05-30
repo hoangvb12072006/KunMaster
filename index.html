@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOANGKUN | Developer Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Orbitron:wght@500;900&display=swap');
+
+        :root {
+            --neon-green: #0f0;
+            --dark-bg: #050505;
+            --alert-red: #ff003c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--neon-green);
+            font-family: 'Fira Code', monospace;
+            overflow-x: hidden;
+        }
+
+        /* Matrix Background */
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        /* Glitch Effect for Title */
+        .glitch-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .glitch {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            position: relative;
+            color: white;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--alert-red);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(61px, 9999px, 52px, 0); }
+            20% { clip: rect(33px, 9999px, 14px, 0); }
+            40% { clip: rect(96px, 9999px, 73px, 0); }
+            60% { clip: rect(22px, 9999px, 50px, 0); }
+            80% { clip: rect(81px, 9999px, 33px, 0); }
+            100% { clip: rect(8px, 9999px, 80px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(29px, 9999px, 9px, 0); }
+            20% { clip: rect(11px, 9999px, 85px, 0); }
+            40% { clip: rect(88px, 9999px, 25px, 0); }
+            60% { clip: rect(44px, 9999px, 98px, 0); }
+            80% { clip: rect(66px, 9999px, 44px, 0); }
+            100% { clip: rect(33px, 9999px, 11px, 0); }
+        }
+
+        .terminal {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--neon-green);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: left;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            margin-bottom: 30px;
+            min-height: 200px;
+        }
+
+        .terminal-header {
+            border-bottom: 1px solid var(--neon-green);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .typing-text {
+            border-right: 2px solid var(--neon-green);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--neon-green); }
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 15px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--neon-green);
+            color: var(--dark-bg);
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: rgba(0, 0, 0, 0.9);
+            border-left: 4px solid var(--alert-red);
+            color: white;
+            padding: 15px 20px;
+            min-width: 250px;
+            box-shadow: 0 0 10px rgba(255, 0, 60, 0.3);
+            font-size: 0.9rem;
+            transform: translateX(120%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            border-left-color: var(--neon-green);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix"></canvas>
+
+    <div class="container">
+        <div class="glitch-wrapper">
+            <div class="glitch" data-text="SYSTEM ONLINE">SYSTEM ONLINE</div>
+        </div>
+
+        <div class="terminal">
+            <div class="terminal-header">
+                [root@hoangkun-store ~]# ./init_system.sh
+            </div>
+            <div id="terminal-content">
+                <p>> Khởi tạo kết nối máy chủ...</p>
+                <p>> Tải dữ liệu mã nguồn HTML/CSS/JS...</p>
+                <p>> Trạng thái: <strong>SẴN SÀNG</strong></p>
+                <p class="typing-text">> Chào mừng đến với hệ thống kho script.</p>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" onclick="triggerToast('truy cập', 'success')">Xem Source Code</button>
+            <button class="btn" onclick="triggerToast('kết nối API', 'alert')">Kiểm Tra Hệ Thống</button>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // --- MATRIX RAIN EFFECT ---
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレゲゼデベペオォコソトノホモヨョロゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        };
+        setInterval(draw, 30);
+
+        // --- NOTIFICATION SYSTEM (TOAST) ---
+        const toastContainer = document.getElementById('toast-container');
+        const randomMsgs = [
+            "Người dùng Ẩn danh vừa tải xuống Script.",
+            "Phát hiện truy cập trái phép từ IP: 192.168.x.x!",
+            "Giao dịch mới: Mua Source Code thành công.",
+            "Cập nhật hệ thống: Hoàn tất.",
+            "Cảnh báo: Tải trọng server đạt 90%!"
+        ];
+
+        function createToast(message, type = 'alert') {
+            const toast = document.createElement('div');
+            toast.classList.add('toast');
+            if (type === 'success') toast.classList.add('success');
+            
+            let time = new Date().toLocaleTimeString('vi-VN');
+            toast.innerHTML = `<strong>[${time}]</strong><br>${message}`;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => { toast.classList.add('show'); }, 100);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => { toast.remove(); }, 300);
+            }, 4000);
+        }
+
+        function triggerToast(action, type) {
+            createToast(`Đang thực thi lệnh: ${action}...`, type);
+        }
+
+        // Auto-generate random notifications
+        setInterval(() => {
+            if(Math.random() > 0.6) {
+                const msg = randomMsgs[Math.floor(Math.random() * randomMsgs.length)];
+                const type = msg.includes("thành công") || msg.includes("Cập nhật") ? 'success' : 'alert';
+                createToast(msg, type);
+            }
+        }, 5000);
+
+        // Resize handler for canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
