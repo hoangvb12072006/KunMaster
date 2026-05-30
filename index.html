@@ -40,6 +40,7 @@
         .sys-title {
             text-align: center; font-family: 'Orbitron', sans-serif; font-size: 3rem;
             color: var(--text-light); margin-bottom: 40px; letter-spacing: 8px; font-weight: 700;
+            min-height: 3.5rem; /* Giữ chiều cao cố định để không bị giật khi gõ */
         }
         .sys-title span { color: var(--primary); }
 
@@ -161,7 +162,6 @@
             <div class="terminal-body" id="term-body"></div>
         </div>
 
-        <!-- KHU VỰC NHẬP THÔNG TIN MỤC TIÊU -->
         <div class="target-config">
             <h3>[ TARGET CONFIGURATION ]</h3>
             <div class="input-group">
@@ -175,7 +175,6 @@
         </div>
     </div>
 
-    <!-- MÀN HÌNH CHẠY CODE HACK VÀO MỤC TIÊU -->
     <div id="hack-modal" class="hack-modal">
         <div class="hack-box">
             <div class="hack-header">
@@ -190,6 +189,22 @@
     </div>
 
     <script>
+        // --- Hiệu Ứng Gõ Chữ Tiêu Đề HOANGKUN ---
+        const titleText = "HOANGKUN";
+        const titleEl = document.getElementById('main-title');
+        let titleIdx = 0;
+
+        function typeMainTitle() {
+            if (titleIdx < titleText.length) {
+                titleEl.innerHTML = titleText.substring(0, titleIdx + 1) + '<span>_</span>';
+                titleIdx++;
+                setTimeout(typeMainTitle, 150); 
+            } else {
+                titleEl.innerHTML = titleText + '<span class="cursor-blink">_</span>';
+            }
+        }
+        setTimeout(typeMainTitle, 300);
+
         // --- Matrix Nền ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
@@ -232,7 +247,7 @@
                 termBody.appendChild(inputDiv);
             }
         }
-        setTimeout(typeLine, 600);
+        setTimeout(typeLine, 1500); // Chờ gõ xong title mới chạy terminal
 
         // --- SCRIPT HACK MODAL ĐỘNG LẤY DATA TỪ INPUT ---
         const hackModal = document.getElementById('hack-modal');
@@ -242,11 +257,9 @@
         let hackInterval;
 
         function startHackSequence() {
-            // Lấy dữ liệu từ ô nhập
             let inputLink = document.getElementById('target-link').value.trim();
             let inputName = document.getElementById('target-name').value.trim();
 
-            // Nếu không nhập thì gán mặc định cho ngầu
             if (!inputLink) inputLink = "facebook.com/unknown_target";
             if (!inputName) inputName = "ẨN DANH";
 
@@ -254,10 +267,8 @@
             hackLogs.innerHTML = "";
             modalTitle.innerText = `[!] TARGET LOCKED: ${inputName.toUpperCase()}`;
             
-            // Trạng thái quét link ban đầu
             hackStatus.innerHTML = `SCANNING URL: <span class="hl-link">${inputLink}</span> <span class="cursor-blink">_</span>`;
 
-            // Mảng log động chứa Tên và Link do mình nhập
             const dynamicLogs = [
                 `Connecting to Meta Graph API servers...`,
                 `Resolving URL route: <span class='hl-link'>${inputLink}</span>... <span style='color:#00ff41'>[200 OK]</span>`,
@@ -281,12 +292,10 @@
             hackInterval = setInterval(() => {
                 const p = document.createElement('div');
                 
-                // Ở những dòng đầu, cố tình cho chạy chậm và in ra các log phân tích Link và Tên
                 if (logIndex < dynamicLogs.length && Math.random() > 0.4) {
                     p.innerHTML = dynamicLogs[logIndex];
                     logIndex++;
                 } else {
-                    // Sinh mã Hex ngẫu nhiên
                     let hexDump = '';
                     for(let i=0; i<14; i++) hexDump += Math.floor(Math.random()*16).toString(16).padStart(2, '0').toUpperCase() + ' ';
                     p.innerText = `[HEX] ${hexDump}`;
@@ -297,12 +306,10 @@
                 hackLogs.scrollTop = hackLogs.scrollHeight;
                 lineCount++;
 
-                // Đổi dòng status sau 30 dòng code (giả vờ đã quét link xong, chuyển sang hack)
                 if (lineCount === 30) {
                     hackStatus.innerHTML = `EXTRACTING DATA FROM: <span class="hl-target">${inputName.toUpperCase()}</span> <span class="cursor-blink">_</span>`;
                 }
 
-                // Dừng sau 80 dòng
                 if (lineCount > 80) {
                     clearInterval(hackInterval);
                     hackStatus.innerHTML = `<span style="color: #00ff41;">[+] ACCESS SECURED: ${inputName.toUpperCase()} [+]</span>`;
@@ -319,26 +326,6 @@
             hackModal.classList.remove('active');
             clearInterval(hackInterval);
         }
-
-        // --- Hiệu Ứng Gõ Chữ Tiêu Đề HOANGKUN ---
-        const titleText = "HOANGKUN";
-        const titleEl = document.getElementById('main-title');
-        let titleIdx = 0;
-
-        function typeMainTitle() {
-            if (titleIdx < titleText.length) {
-                // Giữ nguyên phần đã gõ và cộng thêm con trỏ nhấp nháy
-                titleEl.innerHTML = titleText.substring(0, titleIdx + 1) + '<span>_</span>';
-                titleIdx++;
-                setTimeout(typeMainTitle, 150); // Tốc độ gõ 150ms/chữ
-            } else {
-                // Sau khi gõ xong, cho con trỏ nhấp nháy liên tục
-                titleEl.innerHTML = titleText + '<span class="cursor-blink">_</span>';
-            }
-        }
-        // Chờ 300ms sau khi tải trang thì bắt đầu gõ
-        setTimeout(typeMainTitle, 300);
-        
     </script>
 </body>
 </html>
