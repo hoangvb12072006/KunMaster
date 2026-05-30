@@ -40,7 +40,7 @@
         .sys-title {
             text-align: center; font-family: 'Orbitron', sans-serif; font-size: 3rem;
             color: var(--text-light); margin-bottom: 40px; letter-spacing: 8px; font-weight: 700;
-            min-height: 3.5rem; /* Giữ chiều cao cố định để không bị giật khi gõ */
+            min-height: 3.5rem; 
         }
         .sys-title span { color: var(--primary); }
 
@@ -64,7 +64,6 @@
         .typing-line { display: flex; margin-bottom: 8px; }
         .prompt { margin-right: 12px; color: var(--primary); font-weight: 600; }
 
-        /* Form nhập liệu mục tiêu */
         .target-config {
             background: rgba(15, 15, 18, 0.6); border: 1px solid var(--border-color); 
             padding: 25px; border-radius: 6px; margin-bottom: 30px;
@@ -75,9 +74,7 @@
             margin-bottom: 15px; letter-spacing: 1px;
         }
 
-        .input-group {
-            display: flex; flex-direction: column; gap: 15px;
-        }
+        .input-group { display: flex; flex-direction: column; gap: 15px; }
 
         .hacker-input {
             width: 100%; background: #050505; border: 1px solid var(--border-color);
@@ -85,10 +82,7 @@
             font-size: 1rem; border-radius: 4px; outline: none; transition: 0.3s;
         }
 
-        .hacker-input:focus {
-            border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
-        }
-        
+        .hacker-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 65, 0.2); }
         .hacker-input::placeholder { color: #444; }
 
         .btn-container { display: flex; justify-content: center; gap: 20px; }
@@ -102,7 +96,7 @@
         .cursor-blink { animation: blink 0.8s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- MÀN HÌNH HACK MODAL --- */
+        /* --- MODAL --- */
         .hack-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -115,7 +109,7 @@
             width: 90%; max-width: 800px; height: 75vh;
             background: #000; border: 1px solid var(--primary);
             box-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
-            display: flex; flex-direction: column; border-radius: 4px;
+            display: flex; flex-direction: column; border-radius: 4px; position: relative;
         }
         
         .hack-header {
@@ -128,7 +122,7 @@
         
         .hack-content {
             flex: 1; padding: 15px; overflow-y: auto; color: var(--primary);
-            font-size: 0.95rem; line-height: 1.4;
+            font-size: 0.95rem; line-height: 1.4; position: relative;
         }
         .hack-content::-webkit-scrollbar { width: 5px; }
         .hack-content::-webkit-scrollbar-thumb { background: #333; }
@@ -141,6 +135,48 @@
         .hl-target { color: var(--warning); font-weight: 600; }
         .hl-danger { color: var(--danger); }
         .hl-link { color: #00d4ff; text-decoration: underline; }
+
+        /* --- FAKE PROFILE CARD --- */
+        #profile-card {
+            display: none; /* Ẩn lúc đang chạy code */
+            flex-direction: column; align-items: center; justify-content: center;
+            height: 100%; animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        .avatar-glitch {
+            width: 150px; height: 150px; border: 2px solid var(--danger);
+            border-radius: 10px; margin-bottom: 20px;
+            background: url('https://i.imgur.com/8Q5Zf9v.png') center/cover; /* Ảnh hacker bóng đen */
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+            position: relative; overflow: hidden;
+        }
+        
+        /* Hiệu ứng tia quét ngang avatar */
+        .avatar-glitch::after {
+            content: ''; position: absolute; top: -50%; left: 0; width: 100%; height: 20%;
+            background: rgba(255, 51, 51, 0.4); filter: blur(5px);
+            animation: scanAvatar 2s infinite linear;
+        }
+        @keyframes scanAvatar { 0% { top: -20%; } 100% { top: 120%; } }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--primary);
+            text-shadow: 0 0 10px var(--primary); margin-bottom: 5px; text-transform: uppercase;
+        }
+
+        .profile-status { color: var(--danger); font-weight: bold; letter-spacing: 2px; margin-bottom: 30px; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 2fr; gap: 15px; width: 100%; max-width: 500px;
+            background: rgba(20, 20, 20, 0.8); padding: 20px; border: 1px dashed #444; border-radius: 5px;
+        }
+        
+        .info-label { color: var(--text-dim); text-align: right; padding-right: 10px; font-weight: bold; }
+        .info-value { color: var(--text-light); }
+        .val-red { color: var(--danger); font-weight: bold; }
+        .val-yellow { color: var(--warning); }
     </style>
 </head>
 <body>
@@ -166,7 +202,7 @@
             <h3>[ TARGET CONFIGURATION ]</h3>
             <div class="input-group">
                 <input type="text" id="target-link" class="hacker-input" placeholder="Nhập Link Facebook (VD: facebook.com/profile.php?id=...)">
-                <input type="text" id="target-name" class="hacker-input" placeholder="Nhập Tên Mục Tiêu (VD: Nguyễn Văn A)">
+                <input type="text" id="target-name" class="hacker-input" placeholder="Nhập Tên Mục Tiêu (VD: Ph Văn Tuấn)">
             </div>
         </div>
 
@@ -181,7 +217,34 @@
                 <span id="modal-title">[!] EXECUTING PROTOCOL</span>
                 <button class="hack-close" onclick="closeHackModal()">[ X ]</button>
             </div>
-            <div class="hack-content" id="hack-logs"></div>
+            
+            <div class="hack-content" id="hack-content-area">
+                <div id="hack-logs"></div>
+
+                <div id="profile-card">
+                    <div class="avatar-glitch"></div>
+                    <div class="profile-name" id="p-name">UNKNOWN</div>
+                    <div class="profile-status">[ DATA COMPROMISED ]</div>
+                    
+                    <div class="info-grid">
+                        <div class="info-label">URL_ID:</div>
+                        <div class="info-value" id="p-url">...</div>
+                        
+                        <div class="info-label">IP_ADDRESS:</div>
+                        <div class="info-value val-red" id="p-ip">...</div>
+                        
+                        <div class="info-label">LOCATION:</div>
+                        <div class="info-value val-yellow" id="p-loc">...</div>
+                        
+                        <div class="info-label">DEVICE_FINGERPRINT:</div>
+                        <div class="info-value" id="p-device">...</div>
+                        
+                        <div class="info-label">LAST_ACTIVE:</div>
+                        <div class="info-value">0.003 seconds ago</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="hack-footer" id="hack-status">
                 INITIALIZING ENVIRONMENT... <span class="cursor-blink">_</span>
             </div>
@@ -189,11 +252,10 @@
     </div>
 
     <script>
-        // --- Hiệu Ứng Gõ Chữ Tiêu Đề HOANGKUN ---
+        // --- Hiệu Ứng Gõ Chữ Tiêu Đề ---
         const titleText = "HOANGKUN";
         const titleEl = document.getElementById('main-title');
         let titleIdx = 0;
-
         function typeMainTitle() {
             if (titleIdx < titleText.length) {
                 titleEl.innerHTML = titleText.substring(0, titleIdx + 1) + '<span>_</span>';
@@ -213,7 +275,6 @@
         const chars = '01'.split(''); 
         const fontSize = 14; const columns = canvas.width / fontSize; const drops = [];
         for (let x = 0; x < columns; x++) drops[x] = 1;
-        
         function drawMatrix() {
             ctx.fillStyle = 'rgba(5, 5, 5, 0.05)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height); 
@@ -247,11 +308,17 @@
                 termBody.appendChild(inputDiv);
             }
         }
-        setTimeout(typeLine, 1500); // Chờ gõ xong title mới chạy terminal
+        setTimeout(typeLine, 1500);
 
-        // --- SCRIPT HACK MODAL ĐỘNG LẤY DATA TỪ INPUT ---
+        // --- Dữ liệu Fake Random ---
+        const fakeIPs = ["113.190.x.x", "14.226.x.x", "42.112.x.x", "171.224.x.x", "116.108.x.x"];
+        const fakeDevices = ["iPhone 14 Pro Max (iOS 17)", "Samsung Galaxy S23 Ultra", "Windows 11 PC (Chrome)", "MacBook Pro M2 (Safari)", "Xiaomi 13 Pro (Android 14)"];
+        const fakeLocations = ["Hà Nội, VN (Proxy Detour)", "Hải Phòng, VN (Encrypted Node)", "Hồ Chí Minh, VN (VPN Active)", "Đà Nẵng, VN (Triangulated)"];
+
+        // --- SCRIPT HACK MODAL ĐỘNG ---
         const hackModal = document.getElementById('hack-modal');
         const hackLogs = document.getElementById('hack-logs');
+        const profileCard = document.getElementById('profile-card');
         const hackStatus = document.getElementById('hack-status');
         const modalTitle = document.getElementById('modal-title');
         let hackInterval;
@@ -260,13 +327,15 @@
             let inputLink = document.getElementById('target-link').value.trim();
             let inputName = document.getElementById('target-name').value.trim();
 
-            if (!inputLink) inputLink = "facebook.com/unknown_target";
+            if (!inputLink) inputLink = "facebook.com/profile.php?id=1000...";
             if (!inputName) inputName = "ẨN DANH";
 
+            // Reset UI states
             hackModal.classList.add('active');
+            hackLogs.style.display = 'block';
+            profileCard.style.display = 'none';
             hackLogs.innerHTML = "";
             modalTitle.innerText = `[!] TARGET LOCKED: ${inputName.toUpperCase()}`;
-            
             hackStatus.innerHTML = `SCANNING URL: <span class="hl-link">${inputLink}</span> <span class="cursor-blink">_</span>`;
 
             const dynamicLogs = [
@@ -276,12 +345,13 @@
                 `Target Identified! Matching profile name: <span class='hl-target'>[ ${inputName} ]</span>`,
                 `Injecting payload into session memory of <span class='hl-target'>${inputName}</span>...`,
                 `Intercepting 2FA Authentication request... <span style='color:#00ff41'>[BYPASSED]</span>`,
+                `Bypassing Avatar Encryption... <span class='hl-danger'>[IMAGE ENCRYPTED BY META]</span>`,
+                `Applying Decryption Matrix to Profile Picture...`,
                 `Extracting private message database of <span class='hl-target'>${inputName}</span>...`,
                 `Memory block resolved at 0x00F9A4C...`,
                 `Compiling user data packets [||||||||||||||||||] 100%`,
                 `Routing through darknet proxy nodes... <span style='color:#00ff41'>[OK]</span>`,
                 `Decrypting RSA-4096 User Hash for <span class='hl-target'>${inputName}</span>...`,
-                `<span class='hl-danger'>[!] Security counter-measure detected. Shifting virtual IP...</span>`,
                 `Establishing Reverse Shell to target device...`,
                 `Privilege escalation successful. Root access granted.`
             ];
@@ -310,14 +380,21 @@
                     hackStatus.innerHTML = `EXTRACTING DATA FROM: <span class="hl-target">${inputName.toUpperCase()}</span> <span class="cursor-blink">_</span>`;
                 }
 
-                if (lineCount > 80) {
+                if (lineCount > 70) {
                     clearInterval(hackInterval);
-                    hackStatus.innerHTML = `<span style="color: #00ff41;">[+] ACCESS SECURED: ${inputName.toUpperCase()} [+]</span>`;
                     
-                    const successMsg = document.createElement('div');
-                    successMsg.innerHTML = `<br><span style='color:#00ff41'>=================================================<br>TARGET COMPROMISED: ${inputName}.<br>URL: ${inputLink}<br>ALL DATA EXTRACTED SUCCESSFULLY.<br>=================================================</span>`;
-                    hackLogs.appendChild(successMsg);
-                    hackLogs.scrollTop = hackLogs.scrollHeight;
+                    // Ẩn bảng log, hiện bảng profile
+                    hackLogs.style.display = 'none';
+                    profileCard.style.display = 'flex';
+
+                    // Cập nhật dữ liệu fake vào bảng
+                    document.getElementById('p-name').innerText = inputName;
+                    document.getElementById('p-url').innerText = inputLink.substring(0, 30) + '...';
+                    document.getElementById('p-ip').innerText = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
+                    document.getElementById('p-loc').innerText = fakeLocations[Math.floor(Math.random() * fakeLocations.length)];
+                    document.getElementById('p-device').innerText = fakeDevices[Math.floor(Math.random() * fakeDevices.length)];
+
+                    hackStatus.innerHTML = `<span style="color: #00ff41;">[+] PROFILE DATA EXTRACTED & RENDERED [+]</span>`;
                 }
             }, 60); 
         }
