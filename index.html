@@ -145,38 +145,23 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-        .avatar-glitch {
-            width: 150px; height: 150px; border: 2px solid var(--danger);
-            border-radius: 10px; margin-bottom: 20px;
-            background: url('https://i.imgur.com/8Q5Zf9v.png') center/cover; /* Ảnh hacker bóng đen */
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
-            position: relative; overflow: hidden;
-        }
-        
-        /* Hiệu ứng tia quét ngang avatar */
-        .avatar-glitch::after {
-            content: ''; position: absolute; top: -50%; left: 0; width: 100%; height: 20%;
-            background: rgba(255, 51, 51, 0.4); filter: blur(5px);
-            animation: scanAvatar 2s infinite linear;
-        }
-        @keyframes scanAvatar { 0% { top: -20%; } 100% { top: 120%; } }
-
         .profile-name {
-            font-family: 'Orbitron', sans-serif; font-size: 2rem; color: var(--primary);
+            font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--primary);
             text-shadow: 0 0 10px var(--primary); margin-bottom: 5px; text-transform: uppercase;
         }
 
-        .profile-status { color: var(--danger); font-weight: bold; letter-spacing: 2px; margin-bottom: 30px; }
+        .profile-status { color: var(--danger); font-weight: bold; letter-spacing: 2px; margin-bottom: 30px; font-size: 1.1rem;}
 
         .info-grid {
-            display: grid; grid-template-columns: 1fr 2fr; gap: 15px; width: 100%; max-width: 500px;
-            background: rgba(20, 20, 20, 0.8); padding: 20px; border: 1px dashed #444; border-radius: 5px;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 15px; width: 100%; max-width: 600px;
+            background: rgba(20, 20, 20, 0.8); padding: 25px; border: 1px dashed #444; border-radius: 5px;
         }
         
         .info-label { color: var(--text-dim); text-align: right; padding-right: 10px; font-weight: bold; }
         .info-value { color: var(--text-light); }
         .val-red { color: var(--danger); font-weight: bold; }
         .val-yellow { color: var(--warning); }
+        .val-blue { color: #00d4ff; }
     </style>
 </head>
 <body>
@@ -211,6 +196,7 @@
         </div>
     </div>
 
+    <!-- MODAL -->
     <div id="hack-modal" class="hack-modal">
         <div class="hack-box">
             <div class="hack-header">
@@ -219,28 +205,38 @@
             </div>
             
             <div class="hack-content" id="hack-content-area">
+                <!-- KHU VỰC 1: CODE CHẠY -->
                 <div id="hack-logs"></div>
 
+                <!-- KHU VỰC 2: HỒ SƠ GIẢ LẬP KHÔNG ẢNH ĐẠI DIỆN -->
                 <div id="profile-card">
-                    <div class="avatar-glitch"></div>
                     <div class="profile-name" id="p-name">UNKNOWN</div>
-                    <div class="profile-status">[ DATA COMPROMISED ]</div>
+                    <div class="profile-status">[ FACEBOOK DATA EXTRACTED ]</div>
                     
                     <div class="info-grid">
                         <div class="info-label">URL_ID:</div>
                         <div class="info-value" id="p-url">...</div>
                         
+                        <div class="info-label">WORKPLACE:</div>
+                        <div class="info-value val-blue" id="p-work">...</div>
+
+                        <div class="info-label">EDUCATION:</div>
+                        <div class="info-value val-blue" id="p-edu">...</div>
+
+                        <div class="info-label">RELATIONSHIP:</div>
+                        <div class="info-value val-blue" id="p-rel">...</div>
+
                         <div class="info-label">IP_ADDRESS:</div>
                         <div class="info-value val-red" id="p-ip">...</div>
                         
                         <div class="info-label">LOCATION:</div>
                         <div class="info-value val-yellow" id="p-loc">...</div>
                         
-                        <div class="info-label">DEVICE_FINGERPRINT:</div>
+                        <div class="info-label">DEVICE_INFO:</div>
                         <div class="info-value" id="p-device">...</div>
                         
                         <div class="info-label">LAST_ACTIVE:</div>
-                        <div class="info-value">0.003 seconds ago</div>
+                        <div class="info-value">Online Now (Tracking...)</div>
                     </div>
                 </div>
             </div>
@@ -314,6 +310,9 @@
         const fakeIPs = ["113.190.x.x", "14.226.x.x", "42.112.x.x", "171.224.x.x", "116.108.x.x"];
         const fakeDevices = ["iPhone 14 Pro Max (iOS 17)", "Samsung Galaxy S23 Ultra", "Windows 11 PC (Chrome)", "MacBook Pro M2 (Safari)", "Xiaomi 13 Pro (Android 14)"];
         const fakeLocations = ["Hà Nội, VN (Proxy Detour)", "Hải Phòng, VN (Encrypted Node)", "Hồ Chí Minh, VN (VPN Active)", "Đà Nẵng, VN (Triangulated)"];
+        const fakeWorkplaces = ["Freelancer", "Tự do", "Giám đốc tại Công ty TNHH MTV", "Ẩn bởi người dùng", "Học viện Hàng Không"];
+        const fakeEducations = ["Đại học Bách Khoa", "THPT Chuyên", "Đại học Kinh Tế Quốc Dân", "Trường Đời", "Ẩn bởi người dùng"];
+        const fakeRelationships = ["Độc thân", "Đang hẹn hò", "Đã kết hôn", "Rất phức tạp", "Ẩn bởi người dùng"];
 
         // --- SCRIPT HACK MODAL ĐỘNG ---
         const hackModal = document.getElementById('hack-modal');
@@ -345,8 +344,8 @@
                 `Target Identified! Matching profile name: <span class='hl-target'>[ ${inputName} ]</span>`,
                 `Injecting payload into session memory of <span class='hl-target'>${inputName}</span>...`,
                 `Intercepting 2FA Authentication request... <span style='color:#00ff41'>[BYPASSED]</span>`,
-                `Bypassing Avatar Encryption... <span class='hl-danger'>[IMAGE ENCRYPTED BY META]</span>`,
-                `Applying Decryption Matrix to Profile Picture...`,
+                `Bypassing Data Encryption... <span class='hl-danger'>[FB PROFILE LOCKED]</span>`,
+                `Applying Decryption Matrix to Profile Data...`,
                 `Extracting private message database of <span class='hl-target'>${inputName}</span>...`,
                 `Memory block resolved at 0x00F9A4C...`,
                 `Compiling user data packets [||||||||||||||||||] 100%`,
@@ -389,7 +388,10 @@
 
                     // Cập nhật dữ liệu fake vào bảng
                     document.getElementById('p-name').innerText = inputName;
-                    document.getElementById('p-url').innerText = inputLink.substring(0, 30) + '...';
+                    document.getElementById('p-url').innerText = inputLink.substring(0, 30) + (inputLink.length > 30 ? '...' : '');
+                    document.getElementById('p-work').innerText = fakeWorkplaces[Math.floor(Math.random() * fakeWorkplaces.length)];
+                    document.getElementById('p-edu').innerText = fakeEducations[Math.floor(Math.random() * fakeEducations.length)];
+                    document.getElementById('p-rel').innerText = fakeRelationships[Math.floor(Math.random() * fakeRelationships.length)];
                     document.getElementById('p-ip').innerText = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
                     document.getElementById('p-loc').innerText = fakeLocations[Math.floor(Math.random() * fakeLocations.length)];
                     document.getElementById('p-device').innerText = fakeDevices[Math.floor(Math.random() * fakeDevices.length)];
