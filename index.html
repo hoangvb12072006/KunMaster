@@ -8,12 +8,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Orbitron:wght@500;700&display=swap');
 
         :root {
-            --primary: #00ff41; /* Xanh Hacker chuẩn */
+            --primary: #00ff41;
             --bg-base: #050505;
             --bg-panel: #0a0a0c;
             --border-color: #1f2322;
             --text-dim: #777;
             --text-light: #e0e0e0;
+            --danger: #ff3333;
+            --warning: #ffbd2e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -29,7 +31,6 @@
             justify-content: center;
         }
 
-        /* Ma trận nền tối giản, mờ ảo */
         canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; opacity: 0.2; }
 
         .dashboard-container {
@@ -42,7 +43,6 @@
         }
         .sys-title span { color: var(--primary); }
 
-        /* Khung Terminal thanh lịch */
         .terminal-window {
             background: rgba(10, 10, 12, 0.85); border: 1px solid var(--border-color); border-radius: 6px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8); backdrop-filter: blur(5px); margin-bottom: 30px;
@@ -54,38 +54,54 @@
 
         .window-controls { display: flex; gap: 8px; }
         .control-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot-red { background: #ff5f56; }
-        .dot-yellow { background: #ffbd2e; }
-        .dot-green { background: #27c93f; }
+        .dot-red { background: var(--danger); }
+        .dot-yellow { background: var(--warning); }
+        .dot-green { background: var(--primary); }
         .window-title { margin: 0 auto; color: var(--text-dim); font-size: 0.9rem; letter-spacing: 1px; }
 
         .terminal-body { padding: 25px; font-size: 1.05rem; line-height: 1.6; min-height: 180px; color: var(--text-light); }
         .typing-line { display: flex; margin-bottom: 8px; }
         .prompt { margin-right: 12px; color: var(--primary); font-weight: 600; }
 
-        /* Lưới dịch vụ tinh tế */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .service-card {
-            background: rgba(15, 15, 18, 0.6); border: 1px solid var(--border-color); padding: 25px; border-radius: 6px;
-            transition: all 0.3s ease; cursor: pointer;
+        /* Form nhập liệu mục tiêu */
+        .target-config {
+            background: rgba(15, 15, 18, 0.6); border: 1px solid var(--border-color); 
+            padding: 25px; border-radius: 6px; margin-bottom: 30px;
         }
-        .service-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0, 255, 65, 0.1); }
-        .service-card h3 { color: var(--text-light); margin-bottom: 10px; font-family: 'Orbitron', sans-serif; font-size: 1.1rem; letter-spacing: 1px; }
-        .service-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.5; }
+        
+        .target-config h3 {
+            color: var(--primary); font-family: 'Orbitron', sans-serif; font-size: 1.1rem; 
+            margin-bottom: 15px; letter-spacing: 1px;
+        }
 
-        /* Nút bấm chuẩn kỹ thuật */
+        .input-group {
+            display: flex; flex-direction: column; gap: 15px;
+        }
+
+        .hacker-input {
+            width: 100%; background: #050505; border: 1px solid var(--border-color);
+            color: var(--primary); padding: 12px 15px; font-family: 'Fira Code', monospace;
+            font-size: 1rem; border-radius: 4px; outline: none; transition: 0.3s;
+        }
+
+        .hacker-input:focus {
+            border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+        }
+        
+        .hacker-input::placeholder { color: #444; }
+
         .btn-container { display: flex; justify-content: center; gap: 20px; }
         .btn-pro {
-            background: transparent; color: var(--text-light); border: 1px solid var(--border-color); padding: 12px 35px;
-            font-family: 'Orbitron', sans-serif; font-size: 1rem; text-transform: uppercase; letter-spacing: 2px;
-            cursor: pointer; transition: 0.3s; border-radius: 3px;
+            background: transparent; color: var(--text-light); border: 1px solid var(--border-color); padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s; border-radius: 3px; width: 100%; max-width: 400px;
         }
-        .btn-pro:hover { background: var(--primary); color: #000; border-color: var(--primary); font-weight: 600; }
+        .btn-pro:hover { background: var(--primary); color: #000; border-color: var(--primary); font-weight: 600; box-shadow: 0 0 15px rgba(0, 255, 65, 0.4); }
 
         .cursor-blink { animation: blink 0.8s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* --- MÀN HÌNH HACK MODAL (ẨN TRƯỚC) --- */
+        /* --- MÀN HÌNH HACK MODAL --- */
         .hack-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95); z-index: 10000;
@@ -103,7 +119,7 @@
         
         .hack-header {
             padding: 15px; border-bottom: 1px solid #333;
-            color: #ff3333; font-weight: bold; font-size: 1.1rem;
+            color: var(--danger); font-weight: bold; font-size: 1.1rem;
             display: flex; justify-content: space-between; font-family: 'Orbitron', sans-serif;
         }
         .hack-close { background: none; border: none; color: #555; font-size: 1.2rem; cursor: pointer; transition: 0.2s; }
@@ -118,11 +134,12 @@
 
         .hack-footer {
             padding: 15px; border-top: 1px solid #333;
-            color: #ffbd2e; font-size: 1rem; text-align: center; font-weight: bold; font-family: 'Orbitron', sans-serif;
+            color: var(--warning); font-size: 1rem; text-align: center; font-weight: bold; font-family: 'Orbitron', sans-serif;
         }
         
-        .hl-target { color: #ffbd2e; font-weight: 600; }
-        .hl-danger { color: #ff3333; }
+        .hl-target { color: var(--warning); font-weight: 600; }
+        .hl-danger { color: var(--danger); }
+        .hl-link { color: #00d4ff; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -130,10 +147,8 @@
     <canvas id="matrix-canvas"></canvas>
 
     <div class="dashboard-container">
-        <!-- Tiêu đề ngoài tối giản -->
         <h1 class="sys-title">HOANGKUN<span>_</span></h1>
 
-        <!-- Terminal hiển thị trạng thái bình thường (Không có tên mục tiêu ở đây) -->
         <div class="terminal-window">
             <div class="window-header">
                 <div class="window-controls">
@@ -146,33 +161,25 @@
             <div class="terminal-body" id="term-body"></div>
         </div>
 
-        <!-- Các nút dịch vụ tối giản -->
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>[ CORE MODULES ]</h3>
-                <p>Khởi chạy hệ thống lõi, kiểm tra tính toàn vẹn của dữ liệu và phân tích log.</p>
-            </div>
-            <div class="service-card">
-                <h3>[ NETWORK SEC ]</h3>
-                <p>Bảo mật luồng giao tiếp, rà soát các cổng đang mở trên máy chủ.</p>
-            </div>
-            <div class="service-card">
-                <h3>[ SYSTEM UTILS ]</h3>
-                <p>Công cụ quản trị cấp cao, dọn dẹp cache và tối ưu hóa bộ nhớ đệm.</p>
+        <!-- KHU VỰC NHẬP THÔNG TIN MỤC TIÊU -->
+        <div class="target-config">
+            <h3>[ TARGET CONFIGURATION ]</h3>
+            <div class="input-group">
+                <input type="text" id="target-link" class="hacker-input" placeholder="Nhập Link Facebook (VD: facebook.com/profile.php?id=...)">
+                <input type="text" id="target-name" class="hacker-input" placeholder="Nhập Tên Mục Tiêu (VD: Nguyễn Văn A)">
             </div>
         </div>
 
         <div class="btn-container">
-            <!-- Nút gọi màn hình Hack -->
-            <button class="btn-pro" onclick="startHackSequence()">INITIATE SEQUENCE</button>
+            <button class="btn-pro" onclick="startHackSequence()">INITIATE EXPLOIT</button>
         </div>
     </div>
 
-    <!-- MÀN HÌNH CHẠY CODE HACK VÀO MỤC TIÊU PH VĂN TUẤN -->
+    <!-- MÀN HÌNH CHẠY CODE HACK VÀO MỤC TIÊU -->
     <div id="hack-modal" class="hack-modal">
         <div class="hack-box">
             <div class="hack-header">
-                <span>[!] UNAUTHORIZED EXECUTION DETECTED</span>
+                <span id="modal-title">[!] EXECUTING PROTOCOL</span>
                 <button class="hack-close" onclick="closeHackModal()">[ X ]</button>
             </div>
             <div class="hack-content" id="hack-logs"></div>
@@ -183,19 +190,19 @@
     </div>
 
     <script>
-        // --- Matrix Nền Tối Giản ---
+        // --- Matrix Nền ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
-        const chars = '01'.split(''); // Dùng nhị phân cho ra dáng hệ thống nghiêm túc
+        const chars = '01'.split(''); 
         const fontSize = 14; const columns = canvas.width / fontSize; const drops = [];
         for (let x = 0; x < columns; x++) drops[x] = 1;
         
         function drawMatrix() {
             ctx.fillStyle = 'rgba(5, 5, 5, 0.05)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height); 
-            ctx.fillStyle = '#00ff41'; // Chỉ một màu xanh lá
+            ctx.fillStyle = '#00ff41';
             ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
@@ -206,13 +213,12 @@
         }
         setInterval(drawMatrix, 50);
 
-        // --- Terminal Chính (Chỉ hiện trạng thái khởi động bình thường) ---
+        // --- Terminal Chính ---
         const terminalText = [
             "<span>Booting HoangKun Core OS v3.2.1...</span> <span style='color:#00ff41'>[OK]</span>",
-            "<span>Loading kernel modules...</span> <span style='color:#00ff41'>[OK]</span>",
+            "<span>Loading exploit payloads...</span> <span style='color:#00ff41'>[OK]</span>",
             "<span>Mounting secure file systems...</span> <span style='color:#00ff41'>[OK]</span>",
-            "<span>Establishing encrypted tunnel...</span> <span style='color:#ffbd2e'>[VERIFYING]</span>",
-            "<span>System is online. Awaiting administrator commands.</span>"
+            "<span>Awaiting target configuration...</span> <span style='color:#ffbd2e'>[STANDBY]</span>"
         ];
         const termBody = document.getElementById('term-body'); let lineIndex = 0;
         function typeLine() {
@@ -228,42 +234,57 @@
         }
         setTimeout(typeLine, 600);
 
-        // --- SCRIPT HACK MODAL (KHI BẤM NÚT SẼ CHẠY) ---
+        // --- SCRIPT HACK MODAL ĐỘNG LẤY DATA TỪ INPUT ---
         const hackModal = document.getElementById('hack-modal');
         const hackLogs = document.getElementById('hack-logs');
         const hackStatus = document.getElementById('hack-status');
+        const modalTitle = document.getElementById('modal-title');
         let hackInterval;
 
-        // Các dòng code giả vờ đang hack Ph Văn Tuấn
-        const fakeLogs = [
-            "Bypassing Graph API Security Layers...",
-            "Target Acquired: Profile ID <span class='hl-target'>[Ph Văn Tuấn]</span>...",
-            "Injecting payload into session memory...",
-            "Intercepting 2FA Authentication request... <span style='color:#00ff41'>[BYPASSED]</span>",
-            "Extracting private message database of <span class='hl-target'>Ph Văn Tuấn</span>...",
-            "Memory block resolved at 0x00F9A4C...",
-            "Compiling user data packets [||||||||||||||||||] 100%",
-            "Routing through darknet proxy nodes... <span style='color:#00ff41'>[OK]</span>",
-            "Decrypting RSA-4096 User Hash for <span class='hl-target'>Ph Văn Tuấn</span>...",
-            "<span class='hl-danger'>[!] Security counter-measure detected. Shifting virtual IP...</span>",
-            "Establishing Reverse Shell to target device...",
-            "Privilege escalation successful. Root access granted."
-        ];
-
         function startHackSequence() {
+            // Lấy dữ liệu từ ô nhập
+            let inputLink = document.getElementById('target-link').value.trim();
+            let inputName = document.getElementById('target-name').value.trim();
+
+            // Nếu không nhập thì gán mặc định cho ngầu
+            if (!inputLink) inputLink = "facebook.com/unknown_target";
+            if (!inputName) inputName = "ẨN DANH";
+
             hackModal.classList.add('active');
             hackLogs.innerHTML = "";
+            modalTitle.innerText = `[!] TARGET LOCKED: ${inputName.toUpperCase()}`;
             
-            // Cập nhật trạng thái nhắm mục tiêu
-            hackStatus.innerHTML = 'EXECUTING SCRIPT ON: <span class="hl-target">[ Ph Văn Tuấn ]</span>... <span class="cursor-blink">_</span>';
+            // Trạng thái quét link ban đầu
+            hackStatus.innerHTML = `SCANNING URL: <span class="hl-link">${inputLink}</span> <span class="cursor-blink">_</span>`;
+
+            // Mảng log động chứa Tên và Link do mình nhập
+            const dynamicLogs = [
+                `Connecting to Meta Graph API servers...`,
+                `Resolving URL route: <span class='hl-link'>${inputLink}</span>... <span style='color:#00ff41'>[200 OK]</span>`,
+                `Parsing HTML DOM to locate UID...`,
+                `Target Identified! Matching profile name: <span class='hl-target'>[ ${inputName} ]</span>`,
+                `Injecting payload into session memory of <span class='hl-target'>${inputName}</span>...`,
+                `Intercepting 2FA Authentication request... <span style='color:#00ff41'>[BYPASSED]</span>`,
+                `Extracting private message database of <span class='hl-target'>${inputName}</span>...`,
+                `Memory block resolved at 0x00F9A4C...`,
+                `Compiling user data packets [||||||||||||||||||] 100%`,
+                `Routing through darknet proxy nodes... <span style='color:#00ff41'>[OK]</span>`,
+                `Decrypting RSA-4096 User Hash for <span class='hl-target'>${inputName}</span>...`,
+                `<span class='hl-danger'>[!] Security counter-measure detected. Shifting virtual IP...</span>`,
+                `Establishing Reverse Shell to target device...`,
+                `Privilege escalation successful. Root access granted.`
+            ];
 
             let lineCount = 0;
+            let logIndex = 0;
             
             hackInterval = setInterval(() => {
                 const p = document.createElement('div');
                 
-                if (Math.random() > 0.35) {
-                    p.innerHTML = fakeLogs[Math.floor(Math.random() * fakeLogs.length)];
+                // Ở những dòng đầu, cố tình cho chạy chậm và in ra các log phân tích Link và Tên
+                if (logIndex < dynamicLogs.length && Math.random() > 0.4) {
+                    p.innerHTML = dynamicLogs[logIndex];
+                    logIndex++;
                 } else {
                     // Sinh mã Hex ngẫu nhiên
                     let hexDump = '';
@@ -276,17 +297,22 @@
                 hackLogs.scrollTop = hackLogs.scrollHeight;
                 lineCount++;
 
-                // Dừng sau 70 dòng
-                if (lineCount > 70) {
+                // Đổi dòng status sau 30 dòng code (giả vờ đã quét link xong, chuyển sang hack)
+                if (lineCount === 30) {
+                    hackStatus.innerHTML = `EXTRACTING DATA FROM: <span class="hl-target">${inputName.toUpperCase()}</span> <span class="cursor-blink">_</span>`;
+                }
+
+                // Dừng sau 80 dòng
+                if (lineCount > 80) {
                     clearInterval(hackInterval);
-                    hackStatus.innerHTML = '<span style="color: #00ff41;">[+] ACCESS SECURED: PH VĂN TUẤN [+]</span>';
+                    hackStatus.innerHTML = `<span style="color: #00ff41;">[+] ACCESS SECURED: ${inputName.toUpperCase()} [+]</span>`;
                     
                     const successMsg = document.createElement('div');
-                    successMsg.innerHTML = "<br><span style='color:#00ff41'>=================================================<br>TARGET COMPROMISED: Ph Văn Tuấn.<br>ALL DATA EXTRACTED SUCCESSFULLY.<br>=================================================</span>";
+                    successMsg.innerHTML = `<br><span style='color:#00ff41'>=================================================<br>TARGET COMPROMISED: ${inputName}.<br>URL: ${inputLink}<br>ALL DATA EXTRACTED SUCCESSFULLY.<br>=================================================</span>`;
                     hackLogs.appendChild(successMsg);
                     hackLogs.scrollTop = hackLogs.scrollHeight;
                 }
-            }, 50); // Tốc độ chạy cực nhanh (50ms)
+            }, 60); 
         }
 
         function closeHackModal() {
