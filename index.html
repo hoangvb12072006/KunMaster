@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOANGKUN | SECURITY DASHBOARD</title>
+    <title>HOANGKUN | RGB SECURITY DASHBOARD</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
 
         :root {
-            --primary: #00ff41;
-            --primary-dim: rgba(0, 255, 65, 0.2);
-            --bg-dark: #070707;
-            --bg-panel: rgba(10, 10, 10, 0.85);
+            --primary: #00d4ff; /* Xanh Cyberpunk */
+            --magenta: #ff00ff;
+            --yellow: #ffcc00;
+            --bg-dark: #050505;
+            --bg-panel: rgba(10, 10, 15, 0.75);
             --danger: #ff2a2a;
-            --warning: #ffcc00;
         }
 
         * {
@@ -33,7 +33,7 @@
             justify-content: center;
         }
 
-        /* Hiệu ứng Matrix & Background */
+        /* Ma trận đa sắc */
         canvas {
             position: fixed;
             top: 0;
@@ -43,219 +43,229 @@
             z-index: -2;
         }
 
-        .vignette {
+        /* Hiệu ứng tia quét màn hình (Scanline) */
+        .scanline {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0, 212, 255, 0.2) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.6;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(circle, transparent 40%, #000000 120%);
+            animation: scan 4s linear infinite;
             z-index: -1;
             pointer-events: none;
         }
 
-        /* Container Chính */
+        @keyframes scan {
+            0% { transform: translateY(-150px); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Khung chứa xoay màu (RGB Effect) */
         .dashboard-container {
             width: 100%;
             max-width: 1000px;
             padding: 20px;
             z-index: 10;
+            animation: hue-cycle 20s infinite linear;
         }
 
-        /* Tiêu đề System */
+        @keyframes hue-cycle {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        /* Tiêu đề Glitch */
         .sys-title {
             text-align: center;
             font-family: 'Share Tech Mono', monospace;
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: #fff;
-            text-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
-            margin-bottom: 30px;
+            position: relative;
+            margin-bottom: 40px;
             letter-spacing: 5px;
-            animation: pulse 2s infinite alternate;
+            text-shadow: 2px 2px 10px var(--magenta), -2px -2px 10px var(--primary);
         }
 
-        @keyframes pulse {
-            0% { text-shadow: 0 0 10px var(--primary); }
-            100% { text-shadow: 0 0 25px var(--primary), 0 0 40px var(--primary); }
+        .sys-title::before, .sys-title::after {
+            content: "SYSTEM ONLINE";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
         }
 
-        /* Terminal Window Pro */
+        .sys-title::before {
+            left: 3px;
+            text-shadow: -2px 0 var(--danger);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+        }
+
+        .sys-title::after {
+            left: -3px;
+            text-shadow: -2px 0 var(--primary);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(5% 0 80% 0); }
+        }
+
+        /* Terminal Window */
         .terminal-window {
             background: var(--bg-panel);
-            border: 1px solid var(--primary-dim);
+            border: 2px solid var(--primary);
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px var(--primary-dim);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            overflow: hidden;
-            margin-bottom: 30px;
+            box-shadow: 0 0 20px var(--primary), inset 0 0 10px var(--primary);
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
         }
 
         .window-header {
-            background: rgba(0, 255, 65, 0.1);
+            background: rgba(0, 212, 255, 0.2);
             padding: 10px 15px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid var(--primary-dim);
+            border-bottom: 2px solid var(--primary);
         }
 
-        .window-controls {
-            display: flex;
-            gap: 8px;
-        }
+        .window-controls { display: flex; gap: 8px; }
+        .control-dot { width: 14px; height: 14px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; box-shadow: 0 0 8px #ff5f56; }
+        .dot-yellow { background: #ffbd2e; box-shadow: 0 0 8px #ffbd2e; }
+        .dot-green { background: #27c93f; box-shadow: 0 0 8px #27c93f; }
 
-        .control-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-        .dot-red { background: #ff5f56; box-shadow: 0 0 5px #ff5f56; }
-        .dot-yellow { background: #ffbd2e; box-shadow: 0 0 5px #ffbd2e; }
-        .dot-green { background: #27c93f; box-shadow: 0 0 5px #27c93f; }
+        .window-title { margin: 0 auto; color: #fff; font-weight: bold; text-shadow: 0 0 5px #fff; }
 
-        .window-title {
-            margin: 0 auto;
-            color: #ccc;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
+        .terminal-body { padding: 25px; font-size: 1.1rem; line-height: 1.6; min-height: 200px; }
+        .typing-line { display: flex; margin-bottom: 10px; }
+        .prompt { margin-right: 15px; color: var(--magenta); font-weight: bold; text-shadow: 0 0 5px var(--magenta); }
+        .content { color: #fff; text-shadow: 0 0 5px #fff; }
 
-        .terminal-body {
-            padding: 25px;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            min-height: 180px;
-        }
-
-        .text-white { color: #fff; }
-        .text-warning { color: var(--warning); }
-        .text-danger { color: var(--danger); }
-
-        .typing-line {
-            display: flex;
-            margin-bottom: 10px;
-        }
-        .prompt { margin-right: 15px; color: var(--primary); font-weight: bold; }
-
-        /* Lưới tính năng */
+        /* Lưới tính năng có viền chạy (LED Border Effect) */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .service-card {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--primary-dim);
-            padding: 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
+            background: var(--bg-panel);
+            padding: 25px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
             cursor: pointer;
+            z-index: 1;
         }
 
-        .service-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px inset var(--primary-dim), 0 0 15px var(--primary-dim);
-            transform: translateY(-5px);
-        }
-
-        .service-card h3 {
-            color: #fff;
-            margin-bottom: 10px;
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.3rem;
-        }
-
-        .service-card p {
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        /* Nút bấm chuyên nghiệp */
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .btn-pro {
-            background: transparent;
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 12px 30px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 3px;
-            position: relative;
-            overflow: hidden;
-            transition: 0.3s;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .btn-pro::before {
-            content: '';
+        /* Hiệu ứng viền chạy xung quanh Card */
+        .service-card::before {
+            content: "";
             position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: var(--primary);
-            transition: 0.4s;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--primary), var(--magenta), var(--yellow));
+            animation: rotate-border 3s linear infinite;
+            z-index: -2;
+        }
+
+        .service-card::after {
+            content: "";
+            position: absolute;
+            inset: 3px; /* Độ dày của viền */
+            background: #0a0a0a;
+            border-radius: 7px;
             z-index: -1;
         }
 
-        .btn-pro:hover::before { left: 0; }
-        .btn-pro:hover { color: #000; box-shadow: 0 0 20px var(--primary); }
-
-        /* Toast Notifications */
-        #toast-zone {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 9999;
+        @keyframes rotate-border {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
+        .service-card:hover { transform: scale(1.05); transition: 0.3s; }
+        
+        .service-card h3 {
+            color: var(--yellow);
+            margin-bottom: 15px;
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 1.4rem;
+            text-shadow: 0 0 5px var(--yellow);
+        }
+
+        .service-card p { font-size: 1rem; color: #ddd; }
+
+        /* Nút bấm chớp nháy */
+        .btn-container { display: flex; justify-content: center; gap: 30px; }
+
+        .btn-pro {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 15px 40px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            font-weight: bold;
+            box-shadow: 0 0 15px var(--primary);
+            animation: pulse-btn 1.5s infinite;
+            transition: 0.3s;
+        }
+
+        @keyframes pulse-btn {
+            0%, 100% { box-shadow: 0 0 10px var(--primary), inset 0 0 5px var(--primary); }
+            50% { box-shadow: 0 0 25px var(--primary), inset 0 0 15px var(--primary); text-shadow: 0 0 10px #fff; }
+        }
+
+        .btn-pro:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        /* Toast Notifications */
+        #toast-zone { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+
         .toast-msg {
-            background: rgba(15, 15, 15, 0.95);
-            border-left: 4px solid var(--danger);
-            color: #ddd;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid var(--magenta);
+            color: #fff;
             padding: 15px 25px;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 1rem;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
             transform: translateX(150%);
             transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            width: 320px;
+            width: 350px;
         }
 
         .toast-msg.show { transform: translateX(0); }
-        .toast-msg.success { border-left-color: var(--primary); }
-        .toast-msg.info { border-left-color: #00d4ff; }
-        
-        .toast-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 0.8rem;
-            color: #888;
-        }
-        .toast-body { color: #fff; }
-
-        .cursor-blink { animation: blink 1s step-end infinite; }
+        .toast-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; color: var(--yellow); }
+        .cursor-blink { animation: blink 0.8s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
     <canvas id="matrix-canvas"></canvas>
-    <div class="vignette"></div>
+    <div class="scanline"></div>
 
     <div class="dashboard-container">
         <h1 class="sys-title">SYSTEM ONLINE</h1>
@@ -267,37 +277,37 @@
                     <div class="control-dot dot-yellow"></div>
                     <div class="control-dot dot-green"></div>
                 </div>
-                <div class="window-title">root@hoangkun-server:~</div>
+                <div class="window-title">root@hoangkun-matrix:~</div>
             </div>
             <div class="terminal-body" id="term-body">
                 </div>
         </div>
 
         <div class="services-grid">
-            <div class="service-card" onclick="fireToast('Khởi chạy tiến trình Penetration Testing...', 'info')">
-                <h3>[#01] PENETRATION TESTING</h3>
-                <p>Kiểm thử xâm nhập, rà quét lỗ hổng bảo mật và đánh giá an toàn hệ thống phân tán.</p>
+            <div class="service-card" onclick="fireToast('Đang tiêm mã Penetration Testing...', 'SYS')">
+                <h3>[#01] PENETRATION</h3>
+                <p>Khởi chạy kịch bản tự động, rà quét và phân tích điểm mù bảo mật.</p>
             </div>
-            <div class="service-card" onclick="fireToast('Đang trích xuất dữ liệu mã hóa...', 'success')">
+            <div class="service-card" onclick="fireToast('Kích hoạt thuật toán Data Recovery...', 'SYS')">
                 <h3>[#02] DATA RECOVERY</h3>
-                <p>Phân tích pháp y kỹ thuật số và khôi phục cấu trúc dữ liệu bị phân mảnh cấp cao.</p>
+                <p>Can thiệp băng thông sâu, bẻ khóa luồng dữ liệu bị phân mảnh.</p>
             </div>
-            <div class="service-card" onclick="fireToast('Kích hoạt tường lửa nhiều lớp!', 'error')">
-                <h3>[#03] NETWORK DEFENSE</h3>
-                <p>Thiết lập giao thức phòng ngự, chống lại các cuộc tấn công DDoS và từ chối truy cập.</p>
+            <div class="service-card" onclick="fireToast('CẢNH BÁO: Kích hoạt tường lửa đa lớp!', 'WARN')">
+                <h3>[#03] FIREWALL DEFENSE</h3>
+                <p>Thiết lập lớp khiên phản đòn, điều hướng và băm nhỏ lưu lượng DDoS.</p>
             </div>
         </div>
 
         <div class="btn-container">
-            <button class="btn-pro" onclick="fireToast('Đang kết nối kho dữ liệu mã hóa...', 'success')">KHỞI ĐỘNG MODULE</button>
-            <button class="btn-pro" onclick="fireToast('Cảnh báo: Đang rà quét toàn bộ mạng lưới!', 'error')">SCAN HỆ THỐNG</button>
+            <button class="btn-pro" onclick="fireToast('Đang kết nối kho dữ liệu lõi...', 'SYS')">INITIATE SEQUENCE</button>
+            <button class="btn-pro" onclick="fireToast('Cảnh báo: Đang rà quét toàn bộ mạng lưới!', 'WARN')">DEEP SCAN</button>
         </div>
     </div>
 
     <div id="toast-zone"></div>
 
     <script>
-        // === 1. MATRIX BACKGROUND EFFECT ===
+        // === 1. MATRIX ĐA SẮC MÀU MÈ ===
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -309,35 +319,40 @@
         resizeCanvas();
 
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ'.split('');
-        const fontSize = 14;
+        const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = [];
         for (let x = 0; x < columns; x++) drops[x] = 1;
 
+        // Bảng màu rực rỡ ngẫu nhiên cho từng chữ rơi
+        const colors = ['#00ff41', '#00d4ff', '#ff00ff', '#ffcc00', '#ff2a2a'];
+
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(7, 7, 7, 0.08)'; 
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.1)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#00ff41'; 
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
+                // Đổi màu ngẫu nhiên liên tục
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
         }
-        setInterval(drawMatrix, 40);
+        setInterval(drawMatrix, 35);
 
-        // === 2. TERMINAL TYPING EFFECT ===
+        // === 2. TERMINAL GÕ CHỮ TRÔNG "NGUY HIỂM" HƠN ===
         const terminalText = [
-            "<span class='text-white'>Khởi tạo hệ thống an ninh mạng cấp độ 4...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Xác thực chứng chỉ mã hóa RSA-4096...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Đang nạp module PEN-TEST v2.6.0...</span> <span class='text-warning'>[OK]</span>",
-            "<span class='text-white'>Trạng thái lõi hệ thống:</span> <span class='prompt'>TRUY CẬP ĐƯỢC CẤP PHÉP</span>",
-            "<span class='text-white'>Chọn mục tiêu kiểm thử bên dưới để bắt đầu.</span>"
+            "<span class='content'>[SYSTEM] Đang bỏ qua giao thức SSL...</span> <span style='color: #00ff41'>[DONE]</span>",
+            "<span class='content'>[SYSTEM] Tiêm mã độc quyền HOANGKUN-CORE...</span> <span style='color: #00ff41'>[DONE]</span>",
+            "<span class='content'>[SYSTEM] Đang quét các lỗ hổng mạng lân cận...</span> <span style='color: #ffcc00'>[WARNING]</span>",
+            "<span class='content'>[SYSTEM] Cấp quyền truy cập mức cao nhất:</span> <span style='color: #ff00ff; text-shadow: 0 0 5px #ff00ff;'>ROOT ACCESS GRANTED</span>",
+            "<span class='content'>[ROOT] Chờ lệnh thực thi từ người quản trị...</span>"
         ];
         
         const termBody = document.getElementById('term-body');
@@ -347,14 +362,11 @@
             if (lineIndex < terminalText.length) {
                 const div = document.createElement('div');
                 div.className = 'typing-line';
-                div.innerHTML = `<span class="prompt">root@hoangkun:~$</span> <span class="content"></span>`;
+                div.innerHTML = `<span class="prompt">root@hoangkun:~$</span> <span class="content">${terminalText[lineIndex]}</span>`;
                 termBody.appendChild(div);
                 
-                const contentSpan = div.querySelector('.content');
-                contentSpan.innerHTML = terminalText[lineIndex];
-                
                 lineIndex++;
-                setTimeout(typeLine, 600); 
+                setTimeout(typeLine, Math.random() * 500 + 300); // Gõ nhanh chậm ngẫu nhiên
             } else {
                 const inputDiv = document.createElement('div');
                 inputDiv.className = 'typing-line';
@@ -362,17 +374,16 @@
                 termBody.appendChild(inputDiv);
             }
         }
-        setTimeout(typeLine, 500);
+        setTimeout(typeLine, 800);
 
-        // === 3. TOAST NOTIFICATION SYSTEM ===
+        // === 3. TOAST NOTIFICATION GIẬT GIẬT ===
         const toastZone = document.getElementById('toast-zone');
         
-        function fireToast(message, type = 'error') {
+        function fireToast(message, typeLabel = 'ALERT') {
             const toast = document.createElement('div');
-            toast.className = `toast-msg ${type}`;
+            toast.className = `toast-msg`;
             
             const timeStr = new Date().toLocaleTimeString('vi-VN');
-            const typeLabel = type === 'success' ? 'SYSTEM' : (type === 'info' ? 'INFO' : 'ALERT');
             
             toast.innerHTML = `
                 <div class="toast-header">
@@ -391,23 +402,22 @@
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 400);
-            }, 4000);
+            }, 3000);
         }
 
-        // Tự động giả lập thông báo ngẫu nhiên
         const randomAlerts = [
-            { msg: "Quá trình giải mã tập tin hoàn tất.", type: "success" },
-            { msg: "Phát hiện nỗ lực rà quét cổng từ IP: 103.11.x.x!", type: "error" },
-            { msg: "Hệ thống phòng ngự IDS đang hoạt động ổn định.", type: "info" },
-            { msg: "Cảnh báo: Lưu lượng Ping đạt ngưỡng bất thường.", type: "error" }
+            { msg: "Dữ liệu mã hóa đang được tải về...", type: "INFO" },
+            { msg: "Phát hiện truy cập ẩn danh từ cổng 8080!", type: "WARN" },
+            { msg: "Bẻ khóa luồng dữ liệu thành công.", type: "SYS" },
+            { msg: "Lưu lượng băng thông đạt đỉnh 100%!", type: "ERR" }
         ];
 
         setInterval(() => {
-            if (Math.random() > 0.7) { 
+            if (Math.random() > 0.6) { 
                 const alert = randomAlerts[Math.floor(Math.random() * randomAlerts.length)];
                 fireToast(alert.msg, alert.type);
             }
-        }, 6000);
+        }, 4000);
     </script>
 </body>
 </html>
