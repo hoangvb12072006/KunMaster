@@ -8,7 +8,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;800&display=swap');
 
         :root {
-            --primary: #00e676; /* Xanh ngọc hiện đại */
+            --primary: #00e676; 
             --primary-glow: rgba(0, 230, 118, 0.4);
             --bg-dark: #0a0b0e;
             --surface: rgba(20, 22, 28, 0.6);
@@ -39,7 +39,6 @@
             width: 100%; max-width: 800px; padding: 30px 20px; z-index: 10;
         }
 
-        /* Tiêu đề gọn gàng */
         .sys-title {
             text-align: center; font-size: 2.5rem; font-weight: 800;
             color: var(--text-main); margin-bottom: 40px; letter-spacing: 4px;
@@ -49,7 +48,6 @@
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* Kính mờ (Glassmorphism) chung cho các khối */
         .glass-panel {
             background: var(--surface);
             backdrop-filter: blur(16px);
@@ -61,7 +59,6 @@
             overflow: hidden;
         }
 
-        /* Terminal Window */
         .window-header {
             background: rgba(0,0,0,0.3); padding: 12px 20px; 
             display: flex; align-items: center; border-bottom: 1px solid var(--surface-border);
@@ -81,7 +78,6 @@
         .prompt { margin-right: 12px; color: var(--primary); font-weight: 500; }
         .content { color: var(--text-main); }
 
-        /* Form nhập liệu */
         .target-config { padding: 30px; }
         .target-config h3 {
             color: var(--text-main); font-size: 1.1rem; font-weight: 600;
@@ -101,7 +97,6 @@
         .hacker-input:focus { border-color: var(--primary); background: rgba(0, 230, 118, 0.02); }
         .hacker-input::placeholder { color: #6b7280; }
 
-        /* Nút bấm hiện đại */
         .btn-container { display: flex; justify-content: center; margin-top: 10px; }
         .btn-pro {
             background: var(--primary); color: #000; border: none; padding: 16px 40px;
@@ -111,7 +106,7 @@
         }
         .btn-pro:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
 
-        /* --- MODAL HIỆN ĐẠI --- */
+        /* --- MODAL CHẠY CODE --- */
         .hack-modal {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 5, 8, 0.85); backdrop-filter: blur(8px); z-index: 10000;
@@ -121,7 +116,7 @@
         .hack-modal.active { opacity: 1; pointer-events: all; }
         
         .hack-box {
-            width: 90%; max-width: 650px; height: 70vh; display: flex; flex-direction: column;
+            width: 90%; max-width: 700px; height: 75vh; display: flex; flex-direction: column;
         }
         
         .hack-header {
@@ -134,7 +129,7 @@
         
         .hack-content {
             flex: 1; padding: 25px; overflow-y: auto; color: var(--text-muted);
-            font-size: 0.9rem; line-height: 1.6; font-family: 'Fira Code', monospace;
+            font-size: 0.95rem; line-height: 1.6; font-family: 'Fira Code', monospace;
         }
         .hack-content::-webkit-scrollbar { width: 4px; }
         .hack-content::-webkit-scrollbar-thumb { background: var(--surface-border); border-radius: 4px; }
@@ -144,36 +139,9 @@
             color: var(--primary); font-size: 0.9rem; font-family: 'Fira Code', monospace; font-weight: 500;
         }
 
-        .hl-target { color: var(--primary); font-weight: 600; }
-        .hl-danger { color: var(--danger); }
+        .hl-target { color: var(--primary); font-weight: 600; text-shadow: 0 0 5px var(--primary-glow); }
+        .hl-danger { color: var(--danger); font-weight: bold; }
         .hl-link { color: #3b82f6; text-decoration: none; }
-
-        /* --- BẢNG PROFILE GỌN GÀNG TỪNG CHI TIẾT --- */
-        #profile-card {
-            display: none; flex-direction: column; height: 100%; animation: fadeIn 0.8s ease; font-family: 'Inter', sans-serif;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .profile-header {
-            text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--surface-border);
-        }
-        .profile-name { font-size: 1.8rem; color: var(--text-main); font-weight: 800; margin-bottom: 8px; }
-        .profile-status { color: var(--primary); font-size: 0.85rem; font-weight: 500; letter-spacing: 1px; }
-
-        .info-grid {
-            display: flex; flex-direction: column; gap: 12px; width: 100%;
-        }
-        .info-row {
-            display: flex; justify-content: space-between; padding: 12px 15px;
-            background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px solid transparent;
-            transition: 0.2s;
-        }
-        .info-row:hover { border-color: var(--surface-border); background: rgba(255,255,255,0.04); }
-        
-        .info-label { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;}
-        .info-value { color: var(--text-main); font-size: 0.95rem; font-weight: 500; text-align: right; }
-        
-        .val-highlight { color: var(--primary); }
     </style>
 </head>
 <body>
@@ -212,47 +180,8 @@
                 <button class="hack-close" onclick="closeHackModal()">✕</button>
             </div>
             
-            <div class="hack-content" id="hack-content-area">
-                <div id="hack-logs"></div>
-
-                <div id="profile-card">
-                    <div class="profile-header">
-                        <div class="profile-name" id="p-name">UNKNOWN</div>
-                        <div class="profile-status">✓ DATA SUCCESSFULLY EXTRACTED</div>
-                    </div>
-                    
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <span class="info-label">Target URL</span>
-                            <span class="info-value hl-link" id="p-url">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Workplace</span>
-                            <span class="info-value" id="p-work">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Education</span>
-                            <span class="info-value" id="p-edu">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Relationship</span>
-                            <span class="info-value" id="p-rel">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">IP Address</span>
-                            <span class="info-value val-highlight" id="p-ip">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Location</span>
-                            <span class="info-value" id="p-loc">...</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Device Info</span>
-                            <span class="info-value" id="p-device">...</span>
-                        </div>
-                    </div>
+            <div class="hack-content" id="hack-logs">
                 </div>
-            </div>
 
             <div class="hack-footer" id="hack-status">
                 Waiting for target input... <span class="cursor-blink">_</span>
@@ -297,37 +226,9 @@
         }
         setTimeout(typeLine, 1200);
 
-        // --- CƠ SỞ DỮ LIỆU CỐ ĐỊNH CHUẨN XÁC ---
-        const realTargetData = {
-            "ph văn tuấn": {
-                workplace: "Tự do",
-                education: "Ẩn bởi người dùng",
-                relationship: "Độc thân",
-                ip: "103.11.24.88",
-                location: "Hải Phòng, Việt Nam",
-                device: "iPhone 14 Pro Max"
-            },
-            "nguyễn việt hoàng": {
-                workplace: "HOANGKUN STORE",
-                education: "Cao đẳng Công nghệ Hải Phòng",
-                relationship: "Đã kết hôn",
-                ip: "113.190.42.12",
-                location: "Hải Phòng, Việt Nam",
-                device: "Windows 11 PC"
-            }
-        };
-
-        // --- Dữ liệu bốc bừa ---
-        const fakeIPs = ["113.190.x.x", "14.226.x.x", "42.112.x.x", "171.224.x.x"];
-        const fakeDevices = ["Samsung Galaxy S23", "Windows 11 PC", "MacBook Pro M2", "Xiaomi 13 Pro"];
-        const fakeLocations = ["Hà Nội, VN", "Đà Nẵng, VN", "Hồ Chí Minh, VN"];
-        const fakeWorkplaces = ["Freelancer", "Ẩn bởi người dùng", "Học viện Ngân Hàng"];
-        const fakeEducations = ["Đại học Bách Khoa", "THPT Chuyên", "Ẩn bởi người dùng"];
-        const fakeRelationships = ["Đang hẹn hò", "Rất phức tạp", "Ẩn bởi người dùng"];
-
+        // --- HỆ THỐNG CHẠY CODE HACK ---
         const hackModal = document.getElementById('hack-modal');
         const hackLogs = document.getElementById('hack-logs');
-        const profileCard = document.getElementById('profile-card');
         const hackStatus = document.getElementById('hack-status');
         const modalTitle = document.getElementById('modal-title');
         let hackInterval;
@@ -340,23 +241,27 @@
             if (!inputName) inputName = "Unknown Target";
 
             hackModal.classList.add('active');
-            hackLogs.style.display = 'block';
-            profileCard.style.display = 'none';
-            hackLogs.innerHTML = "";
+            hackLogs.innerHTML = ""; // Clear logs
             modalTitle.innerText = `Process: Data Extraction`;
             hackStatus.innerHTML = `> Analyzing route: ${inputLink} <span class="cursor-blink">_</span>`;
 
+            // Mảng các câu lệnh ngầu lòi
             const dynamicLogs = [
                 `[INIT] Connecting to API endpoints...`,
                 `[INFO] Resolving URL: ${inputLink}... <span style='color:var(--primary)'>[OK]</span>`,
                 `[SYS] Parsing DOM elements for user ID...`,
-                `[MATCH] Profile located: <span class='hl-target'>${inputName}</span>`,
-                `[EXEC] Injecting query parameters...`,
-                `[WARN] Firewall detected. Bypassing security layers... <span style='color:var(--primary)'>[SUCCESS]</span>`,
+                `[MATCH] Profile located: <span class='hl-target'>[${inputName.toUpperCase()}]</span>`,
+                `[EXEC] Injecting query parameters to bypass 2FA...`,
+                `[WARN] Firewall detected. Evading security layers... <span style='color:var(--primary)'>[SUCCESS]</span>`,
                 `[DATA] Extracting basic profile schema...`,
                 `[DATA] Compiling connection history & location data...`,
-                `[SYS] Resolving IP footprint...`,
-                `[FINISH] Decryption complete. Formatting output.`
+                `[SYS] Resolving IP footprint via Darknet nodes...`,
+                `[HASH] Decrypting database keys...`,
+                `[EXTRACT] Dumping private message threads... <span class='hl-danger'>[LOCKED]</span>`,
+                `[BRUTE] Running dictionary attack on message vault...`,
+                `[SUCCESS] Vault breached. Downloading tables...`,
+                `[SYS] Covering tracks and wiping connection logs...`,
+                `[FINISH] Operations completed.`
             ];
 
             let lineCount = 0;
@@ -365,54 +270,50 @@
             hackInterval = setInterval(() => {
                 const p = document.createElement('div');
                 
-                if (logIndex < dynamicLogs.length && Math.random() > 0.3) {
+                // Random in ra Text hoặc in ra mã HEX để màn hình chạy cho dài
+                if (logIndex < dynamicLogs.length && Math.random() > 0.4) {
                     p.innerHTML = dynamicLogs[logIndex];
                     logIndex++;
                 } else {
                     let hexDump = '';
-                    for(let i=0; i<8; i++) hexDump += Math.floor(Math.random()*16).toString(16).padStart(2, '0').toUpperCase() + ' ';
-                    p.innerText = `> ${hexDump}`;
-                    p.style.opacity = "0.4";
+                    for(let i=0; i<10; i++) hexDump += Math.floor(Math.random()*16).toString(16).padStart(2, '0').toUpperCase() + ' ';
+                    p.innerText = `> 0x${Math.floor(Math.random()*9999).toString(16).toUpperCase()} ${hexDump}`;
+                    p.style.opacity = "0.5";
                 }
                 
                 hackLogs.appendChild(p);
                 hackLogs.scrollTop = hackLogs.scrollHeight;
                 lineCount++;
 
-                if (lineCount === 20) {
+                // Đổi trạng thái status 
+                if (lineCount === 30) {
                     hackStatus.innerHTML = `> Extracting payload for <span class="hl-target">${inputName}</span> <span class="cursor-blink">_</span>`;
                 }
 
-                if (lineCount > 45) {
+                // Dừng lại sau khi chạy 80 dòng code
+                if (lineCount > 80) {
                     clearInterval(hackInterval);
                     
-                    hackLogs.style.display = 'none';
-                    profileCard.style.display = 'flex';
-
-                    let targetKey = inputName.toLowerCase();
+                    // In ra bảng thông báo hoàn tất ngay trong Terminal
+                    const successMsg = document.createElement('div');
+                    successMsg.innerHTML = `
+                        <br>
+                        <span style='color:var(--primary); font-weight: 600; font-size: 1.05rem;'>
+                        ======================================================<br>
+                        [+] TARGET COMPROMISED: ${inputName.toUpperCase()}<br>
+                        [+] TARGET URL: ${inputLink}<br>
+                        [+] DATA EXTRACTION: 100% DONE.<br>
+                        [+] FILES SAVED TO LOCAL SYSTEM.<br>
+                        ======================================================
+                        </span><br><br>`;
                     
-                    document.getElementById('p-name').innerText = inputName;
-                    document.getElementById('p-url').innerText = inputLink.substring(0, 35) + (inputLink.length > 35 ? '...' : '');
+                    hackLogs.appendChild(successMsg);
+                    hackLogs.scrollTop = hackLogs.scrollHeight;
 
-                    if (realTargetData[targetKey]) {
-                        document.getElementById('p-work').innerText = realTargetData[targetKey].workplace;
-                        document.getElementById('p-edu').innerText = realTargetData[targetKey].education;
-                        document.getElementById('p-rel').innerText = realTargetData[targetKey].relationship;
-                        document.getElementById('p-ip').innerText = realTargetData[targetKey].ip;
-                        document.getElementById('p-loc').innerText = realTargetData[targetKey].location;
-                        document.getElementById('p-device').innerText = realTargetData[targetKey].device;
-                    } else {
-                        document.getElementById('p-work').innerText = fakeWorkplaces[Math.floor(Math.random() * fakeWorkplaces.length)];
-                        document.getElementById('p-edu').innerText = fakeEducations[Math.floor(Math.random() * fakeEducations.length)];
-                        document.getElementById('p-rel').innerText = fakeRelationships[Math.floor(Math.random() * fakeRelationships.length)];
-                        document.getElementById('p-ip').innerText = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
-                        document.getElementById('p-loc').innerText = fakeLocations[Math.floor(Math.random() * fakeLocations.length)];
-                        document.getElementById('p-device').innerText = fakeDevices[Math.floor(Math.random() * fakeDevices.length)];
-                    }
-
+                    // Chốt trạng thái
                     hackStatus.innerHTML = `> Operation completed successfully. <span class="cursor-blink">_</span>`;
                 }
-            }, 50); 
+            }, 60); // Tốc độ chạy 60ms / dòng
         }
 
         function closeHackModal() {
