@@ -8,19 +8,16 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600;700&family=Share+Tech+Mono&display=swap');
 
         :root {
-            --primary: #00d4ff; /* Xanh Cyberpunk */
+            --primary: #00d4ff; 
             --magenta: #ff00ff;
             --yellow: #ffcc00;
             --bg-dark: #050505;
             --bg-panel: rgba(10, 10, 15, 0.75);
             --danger: #ff2a2a;
+            --neon-green: #00ff41;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-dark);
@@ -33,116 +30,55 @@
             justify-content: center;
         }
 
-        /* Ma trận đa sắc */
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-        }
+        canvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; }
 
-        /* Hiệu ứng tia quét màn hình (Scanline) */
         .scanline {
-            width: 100%;
-            height: 150px;
+            width: 100%; height: 150px;
             background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0, 212, 255, 0.2) 50%, rgba(0,0,0,0) 100%);
-            opacity: 0.6;
-            position: fixed;
-            top: 0;
-            left: 0;
-            animation: scan 4s linear infinite;
-            z-index: -1;
-            pointer-events: none;
+            opacity: 0.6; position: fixed; top: 0; left: 0;
+            animation: scan 4s linear infinite; z-index: -1; pointer-events: none;
         }
 
-        @keyframes scan {
-            0% { transform: translateY(-150px); }
-            100% { transform: translateY(100vh); }
-        }
+        @keyframes scan { 0% { transform: translateY(-150px); } 100% { transform: translateY(100vh); } }
 
-        /* Khung chứa xoay màu (RGB Effect) */
         .dashboard-container {
-            width: 100%;
-            max-width: 1000px;
-            padding: 20px;
-            z-index: 10;
+            width: 100%; max-width: 1000px; padding: 20px; z-index: 10;
             animation: hue-cycle 20s infinite linear;
         }
 
-        @keyframes hue-cycle {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
+        @keyframes hue-cycle { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
 
-        /* Tiêu đề Glitch */
         .sys-title {
-            text-align: center;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 4rem;
-            color: #fff;
-            position: relative;
-            margin-bottom: 40px;
-            letter-spacing: 5px;
+            text-align: center; font-family: 'Share Tech Mono', monospace; font-size: 4rem;
+            color: #fff; position: relative; margin-bottom: 40px; letter-spacing: 5px;
             text-shadow: 2px 2px 10px var(--magenta), -2px -2px 10px var(--primary);
         }
 
         .sys-title::before, .sys-title::after {
-            content: "SYSTEM ONLINE";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
+            content: "SYSTEM ONLINE"; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent;
         }
-
-        .sys-title::before {
-            left: 3px;
-            text-shadow: -2px 0 var(--danger);
-            animation: glitch-anim-1 2s infinite linear alternate-reverse;
-        }
-
-        .sys-title::after {
-            left: -3px;
-            text-shadow: -2px 0 var(--primary);
-            animation: glitch-anim-2 3s infinite linear alternate-reverse;
-        }
+        .sys-title::before { left: 3px; text-shadow: -2px 0 var(--danger); animation: glitch-anim-1 2s infinite linear alternate-reverse; }
+        .sys-title::after { left: -3px; text-shadow: -2px 0 var(--primary); animation: glitch-anim-2 3s infinite linear alternate-reverse; }
 
         @keyframes glitch-anim-1 {
-            0% { clip-path: inset(20% 0 80% 0); }
-            20% { clip-path: inset(60% 0 10% 0); }
-            40% { clip-path: inset(40% 0 50% 0); }
-            60% { clip-path: inset(80% 0 5% 0); }
-            80% { clip-path: inset(10% 0 70% 0); }
-            100% { clip-path: inset(30% 0 20% 0); }
+            0% { clip-path: inset(20% 0 80% 0); } 20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); } 60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); } 100% { clip-path: inset(30% 0 20% 0); }
         }
         @keyframes glitch-anim-2 {
-            0% { clip-path: inset(10% 0 60% 0); }
-            20% { clip-path: inset(30% 0 20% 0); }
-            40% { clip-path: inset(70% 0 10% 0); }
-            60% { clip-path: inset(20% 0 50% 0); }
-            80% { clip-path: inset(50% 0 30% 0); }
-            100% { clip-path: inset(5% 0 80% 0); }
+            0% { clip-path: inset(10% 0 60% 0); } 20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); } 60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); } 100% { clip-path: inset(5% 0 80% 0); }
         }
 
-        /* Terminal Window */
         .terminal-window {
-            background: var(--bg-panel);
-            border: 2px solid var(--primary);
-            border-radius: 8px;
+            background: var(--bg-panel); border: 2px solid var(--primary); border-radius: 8px;
             box-shadow: 0 0 20px var(--primary), inset 0 0 10px var(--primary);
-            backdrop-filter: blur(10px);
-            margin-bottom: 40px;
+            backdrop-filter: blur(10px); margin-bottom: 40px;
         }
 
         .window-header {
-            background: rgba(0, 212, 255, 0.2);
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid var(--primary);
+            background: rgba(0, 212, 255, 0.2); padding: 10px 15px; display: flex; align-items: center; border-bottom: 2px solid var(--primary);
         }
 
         .window-controls { display: flex; gap: 8px; }
@@ -150,7 +86,6 @@
         .dot-red { background: #ff5f56; box-shadow: 0 0 8px #ff5f56; }
         .dot-yellow { background: #ffbd2e; box-shadow: 0 0 8px #ffbd2e; }
         .dot-green { background: #27c93f; box-shadow: 0 0 8px #27c93f; }
-
         .window-title { margin: 0 auto; color: #fff; font-weight: bold; text-shadow: 0 0 5px #fff; }
 
         .terminal-body { padding: 25px; font-size: 1.1rem; line-height: 1.6; min-height: 200px; }
@@ -158,108 +93,81 @@
         .prompt { margin-right: 15px; color: var(--magenta); font-weight: bold; text-shadow: 0 0 5px var(--magenta); }
         .content { color: #fff; text-shadow: 0 0 5px #fff; }
 
-        /* Lưới tính năng có viền chạy (LED Border Effect) */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .service-card {
-            background: var(--bg-panel);
-            padding: 25px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            z-index: 1;
+            background: var(--bg-panel); padding: 25px; border-radius: 10px; position: relative; overflow: hidden; cursor: pointer; z-index: 1;
         }
-
-        /* Hiệu ứng viền chạy xung quanh Card */
         .service-card::before {
-            content: "";
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: conic-gradient(transparent, transparent, transparent, var(--primary), var(--magenta), var(--yellow));
-            animation: rotate-border 3s linear infinite;
-            z-index: -2;
+            animation: rotate-border 3s linear infinite; z-index: -2;
         }
-
-        .service-card::after {
-            content: "";
-            position: absolute;
-            inset: 3px; /* Độ dày của viền */
-            background: #0a0a0a;
-            border-radius: 7px;
-            z-index: -1;
-        }
-
-        @keyframes rotate-border {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        .service-card::after { content: ""; position: absolute; inset: 3px; background: #0a0a0a; border-radius: 7px; z-index: -1; }
+        @keyframes rotate-border { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .service-card:hover { transform: scale(1.05); transition: 0.3s; }
-        
-        .service-card h3 {
-            color: var(--yellow);
-            margin-bottom: 15px;
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.4rem;
-            text-shadow: 0 0 5px var(--yellow);
-        }
-
+        .service-card h3 { color: var(--yellow); margin-bottom: 15px; font-family: 'Share Tech Mono', sans-serif; font-size: 1.4rem; text-shadow: 0 0 5px var(--yellow); }
         .service-card p { font-size: 1rem; color: #ddd; }
 
-        /* Nút bấm chớp nháy */
         .btn-container { display: flex; justify-content: center; gap: 30px; }
-
         .btn-pro {
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            padding: 15px 40px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            position: relative;
-            font-weight: bold;
-            box-shadow: 0 0 15px var(--primary);
-            animation: pulse-btn 1.5s infinite;
-            transition: 0.3s;
+            background: rgba(0, 212, 255, 0.1); color: var(--primary); border: 2px solid var(--primary); padding: 15px 40px;
+            font-family: 'Share Tech Mono', monospace; font-size: 1.3rem; text-transform: uppercase; cursor: pointer;
+            position: relative; font-weight: bold; box-shadow: 0 0 15px var(--primary); animation: pulse-btn 1.5s infinite; transition: 0.3s;
         }
-
         @keyframes pulse-btn {
             0%, 100% { box-shadow: 0 0 10px var(--primary), inset 0 0 5px var(--primary); }
             50% { box-shadow: 0 0 25px var(--primary), inset 0 0 15px var(--primary); text-shadow: 0 0 10px #fff; }
         }
+        .btn-pro:hover { background: var(--primary); color: #000; }
 
-        .btn-pro:hover {
-            background: var(--primary);
-            color: #000;
-        }
-
-        /* Toast Notifications */
         #toast-zone { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
-
         .toast-msg {
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid var(--magenta);
-            color: #fff;
-            padding: 15px 25px;
-            font-size: 1rem;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
-            transform: translateX(150%);
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            width: 350px;
+            background: rgba(0, 0, 0, 0.9); border: 2px solid var(--magenta); color: #fff; padding: 15px 25px;
+            font-size: 1rem; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); transform: translateX(150%); transition: transform 0.4s; width: 350px;
         }
-
         .toast-msg.show { transform: translateX(0); }
         .toast-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; color: var(--yellow); }
         .cursor-blink { animation: blink 0.8s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- CSS MỚI CHO BẢNG CHẠY CODE HACK --- */
+        .hack-modal {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.95); z-index: 10000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .hack-modal.active { opacity: 1; pointer-events: all; }
+        
+        .hack-box {
+            width: 90%; max-width: 800px; height: 75vh;
+            background: #000; border: 2px solid var(--neon-green);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+            display: flex; flex-direction: column;
+        }
+        
+        .hack-header {
+            padding: 15px; border-bottom: 1px solid var(--neon-green);
+            color: var(--danger); font-weight: bold; font-size: 1.2rem;
+            display: flex; justify-content: space-between;
+        }
+        .hack-close {
+            background: none; border: none; color: var(--neon-green); font-size: 1.2rem; cursor: pointer; font-family: inherit;
+        }
+        .hack-close:hover { color: #fff; }
+        
+        .hack-content {
+            flex: 1; padding: 15px; overflow-y: auto; color: var(--neon-green);
+            font-size: 0.95rem; line-height: 1.3; text-shadow: 0 0 5px var(--neon-green);
+        }
+        /* Custom thanh cuộn */
+        .hack-content::-webkit-scrollbar { width: 5px; }
+        .hack-content::-webkit-scrollbar-thumb { background: var(--neon-green); }
+
+        .hack-footer {
+            padding: 15px; border-top: 1px solid var(--neon-green);
+            color: var(--yellow); font-size: 1.2rem; text-align: center; font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -279,14 +187,13 @@
                 </div>
                 <div class="window-title">root@hoangkun-matrix:~</div>
             </div>
-            <div class="terminal-body" id="term-body">
-                </div>
+            <div class="terminal-body" id="term-body"></div>
         </div>
 
         <div class="services-grid">
             <div class="service-card" onclick="fireToast('Đang tiêm mã Penetration Testing...', 'SYS')">
                 <h3>[#01] PENETRATION</h3>
-                <p>Khởi chạy tự động, rà quét và phân tích điểm mù bảo mật.</p>
+                <p>Khởi chạy kịch bản tự động, rà quét và phân tích điểm mù bảo mật.</p>
             </div>
             <div class="service-card" onclick="fireToast('Kích hoạt thuật toán Data Recovery...', 'SYS')">
                 <h3>[#02] DATA RECOVERY</h3>
@@ -299,54 +206,49 @@
         </div>
 
         <div class="btn-container">
-            <button class="btn-pro" onclick="fireToast('Đang kết nối kho dữ liệu lõi...', 'SYS')">INITIATE SEQUENCE</button>
+            <button class="btn-pro" onclick="startHackSequence()">INITIATE SEQUENCE</button>
             <button class="btn-pro" onclick="fireToast('Cảnh báo: Đang rà quét toàn bộ mạng lưới!', 'WARN')">DEEP SCAN</button>
         </div>
     </div>
 
     <div id="toast-zone"></div>
 
+    <div id="hack-modal" class="hack-modal">
+        <div class="hack-box">
+            <div class="hack-header">
+                <span>[!] CẢNH BÁO: CHƯƠNG TRÌNH ĐANG THỰC THI</span>
+                <button class="hack-close" onclick="closeHackModal()">[ X ĐÓNG ]</button>
+            </div>
+            <div class="hack-content" id="hack-logs">
+                </div>
+            <div class="hack-footer" id="hack-status">
+                ĐANG KẾT NỐI SERVER ĐÍCH... <span class="cursor-blink">_</span>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // === 1. MATRIX ĐA SẮC MÀU MÈ ===
+        // --- CÁC SCRIPT CŨ (Ma trận, Toast, Gõ Terminal) ---
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ'.split('');
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = [];
+        const fontSize = 16; const columns = canvas.width / fontSize; const drops = [];
         for (let x = 0; x < columns; x++) drops[x] = 1;
-
-        // Bảng màu rực rỡ ngẫu nhiên cho từng chữ rơi
         const colors = ['#00ff41', '#00d4ff', '#ff00ff', '#ffcc00', '#ff2a2a'];
-
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.1)'; 
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.font = fontSize + 'px monospace';
-
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.1)'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
-                // Đổi màu ngẫu nhiên liên tục
                 ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-                
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
-                    drops[i] = 0;
-                }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) drops[i] = 0;
                 drops[i]++;
             }
         }
         setInterval(drawMatrix, 35);
 
-        // === 2. TERMINAL GÕ CHỮ TRÔNG "NGUY HIỂM" HƠN ===
         const terminalText = [
             "<span class='content'>[SYSTEM] Đang bỏ qua giao thức SSL...</span> <span style='color: #00ff41'>[DONE]</span>",
             "<span class='content'>[SYSTEM] Tiêm mã độc quyền HOANGKUN-CORE...</span> <span style='color: #00ff41'>[DONE]</span>",
@@ -354,70 +256,95 @@
             "<span class='content'>[SYSTEM] Cấp quyền truy cập mức cao nhất:</span> <span style='color: #ff00ff; text-shadow: 0 0 5px #ff00ff;'>ROOT ACCESS GRANTED</span>",
             "<span class='content'>[ROOT] Chờ lệnh thực thi từ người quản trị...</span>"
         ];
-        
-        const termBody = document.getElementById('term-body');
-        let lineIndex = 0;
-
+        const termBody = document.getElementById('term-body'); let lineIndex = 0;
         function typeLine() {
             if (lineIndex < terminalText.length) {
-                const div = document.createElement('div');
-                div.className = 'typing-line';
+                const div = document.createElement('div'); div.className = 'typing-line';
                 div.innerHTML = `<span class="prompt">root@hoangkun:~$</span> <span class="content">${terminalText[lineIndex]}</span>`;
-                termBody.appendChild(div);
-                
-                lineIndex++;
-                setTimeout(typeLine, Math.random() * 500 + 300); // Gõ nhanh chậm ngẫu nhiên
+                termBody.appendChild(div); lineIndex++; setTimeout(typeLine, Math.random() * 500 + 300);
             } else {
-                const inputDiv = document.createElement('div');
-                inputDiv.className = 'typing-line';
+                const inputDiv = document.createElement('div'); inputDiv.className = 'typing-line';
                 inputDiv.innerHTML = `<span class="prompt">root@hoangkun:~$</span> <span class="cursor-blink">_</span>`;
                 termBody.appendChild(inputDiv);
             }
         }
         setTimeout(typeLine, 800);
 
-        // === 3. TOAST NOTIFICATION GIẬT GIẬT ===
         const toastZone = document.getElementById('toast-zone');
-        
         function fireToast(message, typeLabel = 'ALERT') {
-            const toast = document.createElement('div');
-            toast.className = `toast-msg`;
-            
+            const toast = document.createElement('div'); toast.className = `toast-msg`;
             const timeStr = new Date().toLocaleTimeString('vi-VN');
-            
-            toast.innerHTML = `
-                <div class="toast-header">
-                    <span>[${typeLabel}]</span>
-                    <span>${timeStr}</span>
-                </div>
-                <div class="toast-body">${message}</div>
-            `;
-            
+            toast.innerHTML = `<div class="toast-header"><span>[${typeLabel}]</span><span>${timeStr}</span></div><div class="toast-body">${message}</div>`;
             toastZone.appendChild(toast);
-            
-            requestAnimationFrame(() => {
-                setTimeout(() => toast.classList.add('show'), 10);
-            });
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 3000);
+            requestAnimationFrame(() => { setTimeout(() => toast.classList.add('show'), 10); });
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3000);
         }
 
-        const randomAlerts = [
-            { msg: "Dữ liệu mã hóa đang được tải về...", type: "INFO" },
-            { msg: "Phát hiện truy cập ẩn danh từ cổng 8080!", type: "WARN" },
-            { msg: "Bẻ khóa luồng dữ liệu thành công.", type: "SYS" },
-            { msg: "Lưu lượng băng thông đạt đỉnh 100%!", type: "ERR" }
+        // --- SCRIPT MỚI DÀNH CHO MÀN HÌNH CHẠY CODE ẢO ---
+        const hackModal = document.getElementById('hack-modal');
+        const hackLogs = document.getElementById('hack-logs');
+        const hackStatus = document.getElementById('hack-status');
+        let hackInterval;
+
+        // Tập hợp các câu thông báo giả để hiện random
+        const fakeLogs = [
+            "Bypassing Firewall Protocol...",
+            "Injecting Trojan Payload to port 8080...",
+            "Memory leak detected at 0x89F0A3C...",
+            "Resolving IP routing via Proxy... [OK]",
+            "Decrypting RSA-4096 User Hash...",
+            "Extracting Database Tables: wp_users, wp_passwords...",
+            "[WARNING] Counter-measure detected. Switching node...",
+            "Establishing Reverse Shell Connection...",
+            "Downloading encrypted cache [||||||||||||||||||] 100%",
+            "Overriding system administrator privileges..."
         ];
 
-        setInterval(() => {
-            if (Math.random() > 0.6) { 
-                const alert = randomAlerts[Math.floor(Math.random() * randomAlerts.length)];
-                fireToast(alert.msg, alert.type);
-            }
-        }, 4000);
+        function startHackSequence() {
+            hackModal.classList.add('active'); // Hiện modal
+            hackLogs.innerHTML = ""; // Xoá log cũ
+            hackStatus.innerHTML = 'ĐANG VƯỢT TƯỜNG LỬA... <span class="cursor-blink">_</span>';
+            hackStatus.style.color = 'var(--yellow)';
+
+            let lineCount = 0;
+            
+            // Hàm chạy code liên tục
+            hackInterval = setInterval(() => {
+                const p = document.createElement('div');
+                
+                // Random ra text chữ hoặc 1 chuỗi mã Hex rác nhìn cho ngầu
+                if (Math.random() > 0.4) {
+                    p.innerText = fakeLogs[Math.floor(Math.random() * fakeLogs.length)];
+                } else {
+                    let hexDump = '';
+                    for(let i=0; i<12; i++) hexDump += Math.floor(Math.random()*16).toString(16).toUpperCase() + ' ';
+                    p.innerText = `[HEX DUMP] ${hexDump}`;
+                }
+                
+                hackLogs.appendChild(p);
+                // Tự động cuộn chuột xuống dưới cùng
+                hackLogs.scrollTop = hackLogs.scrollHeight;
+                lineCount++;
+
+                // Chạy được khoảng 60 dòng thì dừng lại báo thành công
+                if (lineCount > 60) {
+                    clearInterval(hackInterval);
+                    hackStatus.innerHTML = '<span style="color: var(--neon-green); font-size: 1.5rem; text-shadow: 0 0 10px var(--neon-green);">[+] TRUY CẬP THÀNH CÔNG - HỆ THỐNG ĐÃ BỊ KIỂM SOÁT [+]</span>';
+                    
+                    // Thêm dòng chốt hạ vào bảng log
+                    const successMsg = document.createElement('div');
+                    successMsg.innerHTML = "<br><b>=========================================<br>TARGET COMPROMISED. ROOT ACCESS SECURED.<br>=========================================</b>";
+                    successMsg.style.color = "var(--magenta)";
+                    hackLogs.appendChild(successMsg);
+                    hackLogs.scrollTop = hackLogs.scrollHeight;
+                }
+            }, 60); // Tốc độ chạy 60ms/dòng (Rất nhanh)
+        }
+
+        function closeHackModal() {
+            hackModal.classList.remove('active');
+            clearInterval(hackInterval);
+        }
     </script>
 </body>
 </html>
